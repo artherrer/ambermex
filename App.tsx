@@ -13,6 +13,9 @@ import { Provider } from 'react-redux';
 import Main from './src/App';
 import { store } from './src/store';
 import Theme from './src/theme';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
   return (

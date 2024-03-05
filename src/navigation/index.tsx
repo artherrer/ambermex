@@ -16,6 +16,7 @@ import SetAddress from '../screens/SetAddress';
 import MedicalRecord from '../screens/MedicalRecord';
 import AddContact from '../screens/AddContact';
 import ImportContact from '../screens/ImportContact';
+import Conversation from '../screens/Conversation';
 
 // Layouts
 import Loader from '../components/Loader';
@@ -44,6 +45,7 @@ function DashboardStack() {
       <Stack.Screen name="MedicalRecord" component={MedicalRecord} />
       <Stack.Screen name="AddContact" component={AddContact} />
       <Stack.Screen name="ImportContact" component={ImportContact} />
+      <Stack.Screen name="Conversation" component={Conversation} />
     </Stack.Navigator>
   );
 }

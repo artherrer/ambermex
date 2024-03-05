@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useNavigation, useNavigationState } from '@react-navigation/native';
-import { Box } from 'native-base';
+import { Box, Icon } from 'native-base';
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface CustomHeaderProps {
   RightElement?: React.FC;
@@ -22,11 +23,15 @@ const Header: React.FC<CustomHeaderProps> = ({ RightElement }: CustomHeaderProps
     <Box safeAreaTop style={styles.container}>
       {showBackButton && (
         <TouchableOpacity onPress={handleBackButton} style={styles.backButton}>
-          <Text style={styles.backIcon}>Back</Text>
+          <Icon as={MaterialIcons} name="arrow-back" size={'lg'} style={styles.backIcon} />
         </TouchableOpacity>
       )}
       <Image source={require('../../assets/images/logo_horizontal.png')} style={styles.logo} />
-      {RightElement && <RightElement />}
+      {RightElement && (
+        <Box style={styles.rightIcon}>
+          <RightElement />
+        </Box>
+      )}
     </Box>
   );
 };
@@ -42,7 +47,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 10,
-    top: 75,
+    top: 70,
   },
   backIcon: {
     width: 30,
@@ -54,7 +59,11 @@ const styles = StyleSheet.create({
     height: 30, // Adjust the height as per your logo's size
     resizeMode: 'contain',
   },
-  rightIcon: {},
+  rightIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 70,
+  },
   rightIconImage: {
     width: 30,
     height: 30,

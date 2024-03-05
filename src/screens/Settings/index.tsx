@@ -1,18 +1,15 @@
-import { Avatar, Box, Divider, HStack, SectionList, Text, VStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { Avatar, Box, HStack, Icon, SectionList, Text, VStack } from 'native-base';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Header from '../../components/Header';
-import { useNavigation } from '@react-navigation/native';
+import { colors } from '../../theme/colors';
+import { faker } from '@faker-js/faker';
+
 
 export default function Setings() {
   const navigation = useNavigation();
-
-  const fakeContacts = [
-    {
-      name: 'Nombre',
-      phone: '1234567890',
-    },
-  ]
 
   const data = [
     {
@@ -75,10 +72,32 @@ export default function Setings() {
     },
   ];
 
-  const renderHeader = ({ section }: any) => {
+  const renderHeader = () => {
     return (
-      <Box backgroundColor={'error.100'} px={6}>
-        <Text color={'primary.500'} fontSize={'18'} fontWeight={'bold'}>
+      <Box px={6} bg={'white'} py={3} mb={5}>
+        <HStack space={3} alignItems={'center'}>
+          <Avatar
+            size={'xl'}
+            source={{
+              uri: 'https://i.pravatar.cc/300',
+            }}
+          />
+          <VStack>
+            <Text fontWeight={'bold'}>{faker.person.fullName()}</Text>
+            <Text>{faker.date.birthdate().toDateString()}</Text>
+            <Text>{faker.internet.email()}</Text>
+            <Text>{faker.phone.number()}</Text>
+            <Text>{faker.location.streetAddress()}</Text>
+          </VStack>
+        </HStack>
+      </Box>
+    );
+  };
+
+  const renderSectionHeader = ({ section }: any) => {
+    return (
+      <Box px={6} py={2} bgColor={'gray.100'}>
+        <Text variant={'title'}>
           {section.title}
         </Text>
       </Box>
@@ -87,17 +106,19 @@ export default function Setings() {
 
   const renderItem = ({ item }: any) => {
     return (
-      <Box px={6}>
+      <Box bgColor={'white'} h={12} justifyContent={'center'}>
         <TouchableOpacity onPress={item.action}>
-          <HStack justifyContent={'space-between'}>
+          <HStack justifyContent={'space-between'} justifyItems={'center'} alignContent={'center'} pl={6} pr={2}>
             <Text>{item.title}</Text>
             <HStack>
-              {item.checked ? <Text>Activado</Text> : <Text>Desactivado</Text>}
-              <Text>Fecha</Text>
+              {item.checked && (
+                <Icon as={MaterialIcons} name={'check-circle-outline'} size={5} color={colors.primary} />
+              )}
+              <Icon as={MaterialIcons} name={'keyboard-arrow-right'} size={5} color={colors.primary} />
             </HStack>
           </HStack>
         </TouchableOpacity>
-        <Divider my={2} />
+        {/* <Divider my={2} /> */}
       </Box>
     );
   };
@@ -106,29 +127,13 @@ export default function Setings() {
     <>
       <Header />
       <Box safeAreaBottom pt={3} flex={1}>
-        <Box px={6}>
-          <HStack space={3}>
-            <Avatar
-              size={'xl'}
-              source={{
-                uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-              }}
-            />
-            <VStack>
-              <Text>Nombre</Text>
-              <Text>DOB</Text>
-              <Text>Correo</Text>
-              <Text>Teléfono</Text>
-              <Text>Dirección</Text>
-            </VStack>
-          </HStack>
-        </Box>
+        {renderHeader()}
 
         <SectionList
           sections={data}
           keyExtractor={(item, index) => item.title + index}
           renderItem={renderItem}
-          renderSectionHeader={renderHeader}
+          renderSectionHeader={renderSectionHeader}
         />
       </Box>
     </>

@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Icon, Input, Text, VStack } from 'native-base';
+import { Box, Button, Input, Text } from 'native-base';
 import React from 'react';
-import Header from '../../components/Header';
 import { Controller, useForm } from 'react-hook-form';
+import Header from '../../components/Header';
 
 export default function ConfirmChangePassword() {
   const navigation = useNavigation();
@@ -27,7 +27,13 @@ export default function ConfirmChangePassword() {
     <>
       <Header />
       <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <Text textAlign={'center'}>Para crear una nueva contraseña escribe primero tu contraseña actual.</Text>
+        <Box alignItems={'center'} mb={10}>
+          <Text variant={'title'} my={3}>
+            Asignar nueva contraseña
+          </Text>
+          <Text textAlign={'center'}>Asigna una nueva contraseña para tu cuenta.</Text>
+        </Box>
+
         <Box px={3} mt={6}>
           <Text fontWeight={'bold'}>Nueva contraseña</Text>
           <Controller

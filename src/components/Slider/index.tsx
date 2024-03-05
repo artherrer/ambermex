@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, PanResponder, Text, StyleSheet } from 'react-native';
+import { View, PanResponder, Text, StyleSheet, Dimensions } from 'react-native';
 
 interface SliderProps {
   onSlideComplete?: () => void;
@@ -7,13 +7,15 @@ interface SliderProps {
 
 const Slider = ({ onSlideComplete }: SliderProps) => {
   const [sliderPosition, setSliderPosition] = useState(0);
-
+  const { width } = Dimensions.get('window');
+  const containerWidth = width * 0.8; // Adjust the width as needed
+  
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onMoveShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {},
     onPanResponderMove: (evt, gestureState) => {
-      const newPosition = Math.max(0, Math.min(1, gestureState.dx / 100)); // Assuming 200 is the width of your slider container
+      const newPosition = Math.max(0, Math.min(1, gestureState.dx / (containerWidth - 40))); // 40 is the width of the slider
       setSliderPosition(newPosition);
     },
     onPanResponderRelease: () => {
@@ -26,7 +28,6 @@ const Slider = ({ onSlideComplete }: SliderProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sosText}>SOS</Text>
       <View style={styles.sliderContainer}>
         <View
           style={[styles.slider, { left: `${sliderPosition * 100}%` }]}

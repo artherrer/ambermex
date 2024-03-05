@@ -15,6 +15,11 @@ const theme = extendTheme({
           _hover: {
             color: colors.primary,
           }
+        },
+        title: {
+          fontSize: 18,
+          color: colors.primary,
+          fontWeight: 'bold',
         }
       }
     },
