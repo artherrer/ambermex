@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { Avatar, Box, HStack, Icon, SectionList, Text, VStack } from 'native-base';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Linking, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Header from '../../components/Header';
 import { colors } from '../../theme/colors';
+import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { faker } from '@faker-js/faker';
-
 
 export default function Setings() {
   const navigation = useNavigation();
@@ -70,7 +70,107 @@ export default function Setings() {
         },
       ],
     },
+    {
+      title: 'Soporte',
+      data: [
+        {
+          title: 'Guía de referencia rápida',
+          checked: true,
+          action: () => {
+            openLink('https://www.botonambermex.com/guiarapida');
+          },
+        },
+        {
+          title: 'Guía de uso',
+          checked: true,
+          action: () => {
+            openLink('https://www.botonambermex.com/guia-de-uso');
+          },
+        },
+        {
+          title: 'Contacto',
+          checked: true,
+          action: () => {
+            openLink('https://www.botonambermex.com/tecnologias');
+          },
+        },
+      ],
+    },
+    {
+      title: 'Legales',
+      data: [
+        {
+          title: 'Términos y condiciones',
+          checked: true,
+          action: () => {
+            navigation.navigate('MedicalRecord' as never);
+          },
+        },
+        {
+          title: 'Aviso de privacidad',
+          checked: true,
+          action: () => {
+            navigation.navigate('MedicalRecord' as never);
+          },
+        },
+        {
+          title: 'Contrato de licencia para el usuario',
+          checked: true,
+          action: () => {
+            navigation.navigate('MedicalRecord' as never);
+          },
+        },
+      ],
+    },
+    {
+      title: 'Cuenta',
+      data: [
+        {
+          title: 'Cerrar sesión',
+          checked: true,
+          action: () => {
+            navigation.navigate('AuthStack' as never);
+          },
+        },
+      ],
+    },
   ];
+
+  const openLink = async (url: string) => {
+    try {
+      if (await InAppBrowser.isAvailable()) {
+        await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'cancel',
+          preferredBarTintColor: colors.primary,
+          preferredControlTintColor: 'white',
+          readerMode: false,
+          animated: true,
+          modalPresentationStyle: 'fullScreen',
+          modalTransitionStyle: 'coverVertical',
+          modalEnabled: true,
+          enableBarCollapsing: false,
+          // Android Properties
+          showTitle: true,
+          toolbarColor: '#6200EE',
+          secondaryToolbarColor: 'black',
+          enableUrlBarHiding: true,
+          enableDefaultShare: true,
+          forceCloseOnRedirection: false,
+          // Specify full animation resource identifier(package:anim/name)
+          // or only resource name(in case of animation bundled with app).
+          animations: {
+            startEnter: 'slide_in_right',
+            startExit: 'slide_out_left',
+            endEnter: 'slide_in_left',
+            endExit: 'slide_out_right',
+          },
+        });
+      } else Linking.openURL(url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const renderHeader = () => {
     return (
@@ -97,9 +197,7 @@ export default function Setings() {
   const renderSectionHeader = ({ section }: any) => {
     return (
       <Box px={6} py={2} bgColor={'gray.100'}>
-        <Text variant={'title'}>
-          {section.title}
-        </Text>
+        <Text variant={'title'}>{section.title}</Text>
       </Box>
     );
   };

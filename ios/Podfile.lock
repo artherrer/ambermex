@@ -1123,6 +1123,8 @@ PODS:
     - React-perflogger (= 0.73.5)
   - RNCAsyncStorage (1.22.3):
     - React-Core
+  - RNInAppBrowser (3.7.0):
+    - React-Core
   - RNPermissions (4.1.4):
     - React-Core
   - RNScreens (3.29.0):
@@ -1216,6 +1218,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1344,6 +1347,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNScreens:
@@ -1420,6 +1425,7 @@ SPEC CHECKSUMS:
   React-utils: 987a4526a2fc0acdfaf87888adfe0bf9d0452066
   ReactCommon: 2947b0bffd82ea0e58ca7928881152d4c6dae9af
   RNCAsyncStorage: 10591b9e0a91eaffee14e69b3721009759235125
+  RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNPermissions: e8d5f054c1d7e704220028b2b2b13b64b1bc28c9
   RNScreens: 17e2f657f1b09a71ec3c821368a04acbb7ebcb46
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

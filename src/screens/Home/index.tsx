@@ -1,29 +1,50 @@
 import { Avatar, Box, Divider, Fab, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Header from '../../components/Header';
 import Slider from '../../components/Slider';
+import PersonalAlert from '../../assets/images/alerts/personal.png';
+import { faker } from '@faker-js/faker';
+import { colors } from '../../theme/colors';
 
 function Conversation({ navigation, item }: any) {
+  console.warn(item);
+
   const goToConversation = () => {
     navigation.navigate('Conversation' as never);
   };
 
+  const goToAlert = () => {
+    navigation.navigate('AlertConversation' as never);
+  };
+
   return (
-    <TouchableOpacity onPress={goToConversation}>
+    <TouchableOpacity onPress={item.isAlert ? goToAlert : goToConversation}>
       <HStack space={3} mb={3}>
         <Avatar
-          source={{
-            uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-          }}
+          source={
+            item.isAlert
+              ? PersonalAlert
+              : {
+                  uri: faker.image.avatar(),
+                }
+          }
         />
         <VStack flex={1}>
           <HStack justifyContent={'space-between'}>
-            <Text>Nombre</Text>
-            <Text>Fecha</Text>
+            {item.isAlert && (
+              <Text fontWeight={'bold'} color={colors.error}>
+                Alerta de seguridad
+              </Text>
+            )}
+            {!item.isAlert && <Text fontWeight="bold">{faker.internet.userName()}</Text>}
+            <Text numberOfLines={1} ellipsizeMode="tail" color="gray.500" fontSize="sm">
+              {faker.date.anytime().toDateString()}
+            </Text>
           </HStack>
-          <Text>Último mensaje</Text>
+          {item.isAlert && <Text>{faker.lorem.sentence()}</Text>}
+          {!item.isAlert && <Text>{faker.lorem.sentence()}</Text>}
           <Divider my={2} />
         </VStack>
       </HStack>
@@ -32,6 +53,13 @@ function Conversation({ navigation, item }: any) {
 }
 
 export default function Home({ navigation }: any) {
+  const [conversations, setConversations] = React.useState([] as any[]);
+
+  useEffect(() => {
+    const newConversations = new Array(10).fill(0).map((_, i) => ({ id: i }));
+    setConversations(newConversations.map(item => ({ ...item, isAlert: Math.random() > 0.5 })));
+  }, []);
+
   const GoToSettings = () => (
     <TouchableOpacity onPress={() => navigation.navigate('Settings' as never)}>
       <Icon as={MaterialIcons} name="settings" size={6} color="gray.600" />
@@ -57,12 +85,14 @@ export default function Home({ navigation }: any) {
             borderRadius="10"
             py="1"
             px="2"
-            InputLeftElement={<Icon as={MaterialIcons} name="search" size={6} color="gray.600" ml="2"/>}
-            InputRightElement={<Icon as={MaterialIcons} name="clear" size={6} color="gray.600" mr="2" onPress={clearText}/>}
+            InputLeftElement={<Icon as={MaterialIcons} name="search" size={6} color="gray.600" ml="2" />}
+            InputRightElement={
+              <Icon as={MaterialIcons} name="clear" size={6} color="gray.600" mr="2" onPress={clearText} />
+            }
           />
         </VStack>
         <FlatList
-          data={new Array(10).fill(0).map((_, i) => ({ id: i }))}
+          data={conversations}
           renderItem={({ item }) => <Conversation navigation={navigation} item={item} />}
         />
         <Fab position="absolute" size="lg" icon={<Icon as={MaterialIcons} color="white" fontSize="lg" name="add" />} />
