@@ -3,8 +3,21 @@ import { Avatar, Box, Button, Icon, Input, Text, VStack } from 'native-base';
 import React from 'react';
 import Header from '../../components/Header';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-export default function ChangePassword() {
+const schema = yup
+  .object({
+    bloodType: yup.string().required("El grupo sanguíneo es requerido"),
+    allergies: yup.string().required("Las alergias son requeridas"),
+    diseases: yup.string().required("Las enfermedades son requeridas"),
+    medications: yup.string().required("Los medicamentos son requeridos"),
+    weight: yup.string().required("El peso es requerido"),
+    height: yup.string().required("La altura es requerida"),
+  })
+  .required();
+
+export default function MedicalRecord() {
   const navigation = useNavigation();
 
   const {
@@ -20,6 +33,7 @@ export default function ChangePassword() {
       weight: '',
       height: '',
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data: any) => {
@@ -51,8 +65,6 @@ export default function ChangePassword() {
               />
             )}
             name="bloodType"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.bloodType && <Text color={'red.500'}>{errors.bloodType.message}</Text>}
         </Box>
@@ -71,8 +83,6 @@ export default function ChangePassword() {
               />
             )}
             name="allergies"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.allergies && <Text color={'red.500'}>{errors.allergies.message}</Text>}
         </Box>
@@ -91,8 +101,6 @@ export default function ChangePassword() {
               />
             )}
             name="diseases"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.diseases && <Text color={'red.500'}>{errors.diseases.message}</Text>}
         </Box>
@@ -111,8 +119,6 @@ export default function ChangePassword() {
               />
             )}
             name="medications"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.medications && <Text color={'red.500'}>{errors.medications.message}</Text>}
         </Box>
@@ -131,8 +137,6 @@ export default function ChangePassword() {
               />
             )}
             name="weight"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.weight && <Text color={'red.500'}>{errors.weight.message}</Text>}
         </Box>
@@ -151,8 +155,6 @@ export default function ChangePassword() {
               />
             )}
             name="height"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.height && <Text color={'red.500'}>{errors.height.message}</Text>}
         </Box>

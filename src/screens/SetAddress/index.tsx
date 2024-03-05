@@ -1,12 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Icon, Image, Input, Text, VStack } from 'native-base';
+import { Box, Button, Image, Text } from 'native-base';
 import React from 'react';
 import Header from '../../components/Header';
-import { Controller, useForm } from 'react-hook-form';
+import MapView from 'react-native-maps';
 
 export default function SetAddress() {
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = () => {
+    console.log("Setting address");
   };
 
   return (
@@ -21,7 +20,19 @@ export default function SetAddress() {
         <Image source={require('../../assets/images/address.png')} alt="map" size={200} resizeMode="contain" />
         <Text>Dirección: </Text>
 
-        <Button onPress={() => {}} style={{ marginTop: 10 }}>
+        <Box>
+          <MapView
+            style={{ width: '100%', height: 200 }}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </Box>
+
+        <Button onPress={onSubmit} style={{ marginTop: 10 }}>
           Continuar
         </Button>
       </Box>

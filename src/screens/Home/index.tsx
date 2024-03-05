@@ -1,8 +1,9 @@
-import { Avatar, Box, Divider, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
+import { Avatar, Box, Divider, Fab, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
 import React from 'react';
 import Header from '../../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
+import Slider from '../../components/Slider';
 
 function Conversation() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
   return (
     <>
       <Header RightElement={GoToSettings} />
+      <Slider />
       <Box safeAreaBottom px={3} pt={3} flex={1}>
         <VStack w="100%" space={5} alignSelf="center" mb={3}>
           <Input
@@ -53,6 +55,7 @@ export default function Home() {
           />
         </VStack>
         <FlatList data={new Array(10).fill(0).map((_, i) => ({ id: i }))} renderItem={Conversation} />
+        <Fab position="absolute" size="lg" icon={<Icon as={Text} color="white" fontSize="lg" name="add" />} />
       </Box>
     </>
   );

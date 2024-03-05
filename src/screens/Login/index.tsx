@@ -1,6 +1,15 @@
 import React from 'react';
 import { Box, Button, Image, Input, Text } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  })
+  .required();
 
 export default function Auth() {
   const {
@@ -12,6 +21,7 @@ export default function Auth() {
       email: '',
       password: '',
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data: any) => {
@@ -35,11 +45,6 @@ export default function Auth() {
           />
         )}
         name="email"
-        rules={{
-          required: 'Correo electrónico requerido',
-          pattern: { value: /\S+@\S+\.\S+/, message: 'Correo electrónico inválido' },
-        }}
-        defaultValue=""
       />
       {errors.email && <Text style={{ color: 'red.100' }}>{errors.email.message}</Text>}
       <Controller
@@ -55,8 +60,6 @@ export default function Auth() {
           />
         )}
         name="password"
-        rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 6 caracteres' } }}
-        defaultValue=""
       />
       {errors.password && <Text style={{ color: 'red.100' }}>{errors.password.message}</Text>}
       <Button onPress={() => {}} style={{ marginTop: 10 }} colorScheme="ambermex" variant={'link'}>
