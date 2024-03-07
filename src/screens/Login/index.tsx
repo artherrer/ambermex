@@ -3,15 +3,19 @@ import { Box, Button, Image, Input, Text } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { colors } from '../../theme/colors';
+import { useDispatch } from 'react-redux';
+import { setSignedIn } from '../../slicers/auth';
 
 const schema = yup
   .object({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
+    email: yup.string().email('Correo electrónico inválido').required('Correo electrónico requerido'),
+    password: yup.string().required('Contraseña requerida'),
   })
   .required();
 
 export default function Auth() {
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -26,6 +30,7 @@ export default function Auth() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+    dispatch(setSignedIn());
   };
 
   return (
@@ -46,7 +51,7 @@ export default function Auth() {
         )}
         name="email"
       />
-      {errors.email && <Text style={{ color: 'red.100' }}>{errors.email.message}</Text>}
+      {errors.email && <Text color={colors.error}>{errors.email.message}</Text>}
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
@@ -61,7 +66,7 @@ export default function Auth() {
         )}
         name="password"
       />
-      {errors.password && <Text style={{ color: 'red.100' }}>{errors.password.message}</Text>}
+      {errors.password && <Text color={colors.error}>{errors.password.message}</Text>}
       <Button onPress={() => {}} style={{ marginTop: 10 }} colorScheme="ambermex" variant={'link'}>
         ¿Olvidaste tu contraseña?
       </Button>

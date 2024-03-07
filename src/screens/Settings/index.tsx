@@ -8,9 +8,12 @@ import { colors } from '../../theme/colors';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { faker } from '@faker-js/faker';
 import EditablePicture from '../../components/EditablePicture';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../../slicers/auth';
 
 export default function Setings() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const data = [
     {
@@ -130,7 +133,7 @@ export default function Setings() {
           title: 'Cerrar sesión',
           checked: true,
           action: () => {
-            navigation.navigate('AuthStack' as never);
+            dispatch(signOut());
           },
         },
       ],

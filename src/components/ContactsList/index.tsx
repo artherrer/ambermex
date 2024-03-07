@@ -1,9 +1,10 @@
-import { Avatar, Box, FlatList, HStack, Text, VStack } from 'native-base';
+import { Avatar, Box, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import Contacts, { Contact } from 'react-native-contacts';
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions';
 import userPlaceholder from '../../assets/images/user_placeholder.png';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface Props {
   onSelectedContact: (contact: Contact) => void;
@@ -15,6 +16,7 @@ interface ItemProps {
 }
 
 export default function ContactsList(props: Props) {
+  const [filterText, setFilterText] = useState('');
   const [contacts, setContacts] = useState<any>([]);
   const [permission, setPermission] = useState('');
   const [loading, setLoading] = useState(true);
@@ -62,13 +64,54 @@ export default function ContactsList(props: Props) {
     setLoading(false);
   };
 
+  const filterContacts = async (text: string) => {
+    if (text === '') {
+      await getContacts();
+      return;
+    }
+
+    const filteredContacts = contacts.filter((contact: Contact) => {
+      const fullName = `${contact.givenName} ${contact.familyName}`;
+      return fullName.toLowerCase().includes(text.toLowerCase());
+    });
+
+    setContacts(filteredContacts);
+  };
+
+  const clearFilter = () => {
+    setFilterText('');
+    filterContacts('');
+  };
+
   return (
     <Box>
       {permission === RESULTS.DENIED && <Text>Permission denied</Text>}
       {permission === RESULTS.BLOCKED && <Text>Permission blocked</Text>}
 
       {loading && <Text>Loading...</Text>}
-      {!loading && contacts.length === 0 && <Text>No contacts found</Text>}
+
+      <Input
+        onChangeText={(text) => {
+          setFilterText(text);
+          filterContacts(text);
+        }}
+        value={filterText}
+        placeholder="Search"
+        variant="filled"
+        width="100%"
+        borderRadius="10"
+        py="1"
+        px="2"
+        h={10}
+        mb={3}
+        borderWidth={1}
+        borderColor="gray.300"
+        InputLeftElement={<Icon ml="2" size="4" color="gray.400" as={MaterialIcons} name="search" />}
+        InputRightElement={
+          <Icon mr="2" size="4" color="gray.400" as={MaterialIcons} name="close" onPress={clearFilter} />
+        }
+      />
+      {!loading && contacts.length === 0 && <Text textAlign={'center'}>No se encontraron contactos</Text>}
 
       <FlatList
         data={contacts}

@@ -102,7 +102,7 @@ export default function CreateGroupChat({ navigation }: any) {
           </Box>
         )}
       />
-      <Box>
+      <Box px={3}>
         <ContactsList onSelectedContact={selectContact} multiple />
       </Box>
       <ActionButton buttonColor={colors.primary} onPress={handleSubmit(onSubmit)} useNativeDriver={true} active={true}>

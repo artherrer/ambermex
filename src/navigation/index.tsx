@@ -93,8 +93,8 @@ export default function AppNavigator() {
       screenOptions={{
         headerShown: false,
       }}>
-      {!authReducer.signedIn && <Stack.Screen name="Dashboard" component={DashboardStack} />}
-      {/* {!authReducer.signedIn && (
+      {authReducer.signedIn && <Stack.Screen name="Dashboard" component={DashboardStack} />}
+      {!authReducer.signedIn && (
         <Stack.Group
           screenOptions={{
             headerShown: false,
@@ -102,7 +102,7 @@ export default function AppNavigator() {
           <Stack.Screen name="Auth" component={Auth} />
           <Stack.Screen name="Login" component={Login} />
         </Stack.Group>
-      )} */}
+      )}
     </Stack.Navigator>
   );
 }
