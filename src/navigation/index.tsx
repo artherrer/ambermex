@@ -18,6 +18,8 @@ import AddContact from '../screens/AddContact';
 import ImportContact from '../screens/ImportContact';
 import Conversation from '../screens/Conversation';
 import AlertConversation from '../screens/AlertConversation';
+import CreateIndividualChat from '../screens/CreateIndividualChat';
+import CreateGroupChat from '../screens/CreateGroupChat';
 
 // Layouts
 import Loader from '../components/Loader';
@@ -48,6 +50,8 @@ function DashboardStack() {
       <Stack.Screen name="ImportContact" component={ImportContact} />
       <Stack.Screen name="Conversation" component={Conversation} />
       <Stack.Screen name="AlertConversation" component={AlertConversation} />
+      <Stack.Screen name="CreateIndividualChat" component={CreateIndividualChat} />
+      <Stack.Screen name="CreateGroupChat" component={CreateGroupChat} />
     </Stack.Navigator>
   );
 }

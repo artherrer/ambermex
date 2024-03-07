@@ -58,8 +58,6 @@ export default function AlertConversation({ navigation }: any) {
   };
 
   const toggleChat = () => {
-    console.warn('toggleChat');
-
     const toValue = chatVisible ? 0 : 1; // Determine the target value based on current visibility
     Animated.timing(animation, {
       toValue,
@@ -113,7 +111,11 @@ export default function AlertConversation({ navigation }: any) {
         </Box>
         <Box alignItems={'center'}>
           <TouchableOpacity onPress={toggleChat}>
-            <Icon as={MaterialIcons} name="arrow-downward" size={6} />
+            {chatVisible ? (
+              <Icon as={MaterialIcons} name="arrow-downward" size={8} />
+            ) : (
+              <Icon as={MaterialIcons} name="arrow-upward" size={8} />
+            )}
           </TouchableOpacity>
           <Text>A {34} km de ti</Text>
         </Box>
@@ -124,10 +126,9 @@ export default function AlertConversation({ navigation }: any) {
       </HStack>
 
       {/* Use Animated.View for Chat component to add transitions */}
-      <Animated.View style={{ transform: [{ translateY: 0 }] }}>
+      <Animated.View style={{ transform: [{ translateY: animation }], flex: 1 }}>
         <Chat renderCustomHeader={AlertCard} />
       </Animated.View>
-      {/* <Chat renderCustomHeader={AlertCard} /> */}
     </Box>
   );
 }

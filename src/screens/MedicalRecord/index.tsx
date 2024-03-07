@@ -5,15 +5,16 @@ import Header from '../../components/Header';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { faker } from '@faker-js/faker';
 
 const schema = yup
   .object({
-    bloodType: yup.string().required("El grupo sanguíneo es requerido"),
-    allergies: yup.string().required("Las alergias son requeridas"),
-    diseases: yup.string().required("Las enfermedades son requeridas"),
-    medications: yup.string().required("Los medicamentos son requeridos"),
-    weight: yup.string().required("El peso es requerido"),
-    height: yup.string().required("La altura es requerida"),
+    bloodType: yup.string().required('El grupo sanguíneo es requerido'),
+    allergies: yup.string().required('Las alergias son requeridas'),
+    diseases: yup.string().required('Las enfermedades son requeridas'),
+    medications: yup.string().required('Los medicamentos son requeridos'),
+    weight: yup.string().required('El peso es requerido'),
+    height: yup.string().required('La altura es requerida'),
   })
   .required();
 
@@ -45,12 +46,17 @@ export default function MedicalRecord() {
     <>
       <Header />
       <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <Avatar
-          size={'xl'}
-          source={{
-            uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-          }}
-        />
+        <Box alignItems={'center'} my={6}>
+          <Avatar
+            size={'xl'}
+            source={{
+              uri: faker.image.avatar(),
+            }}
+          />
+          <Text fontWeight={'bold'} fontSize={18} textAlign={'center'}>
+            {faker.person.fullName()}
+          </Text>
+        </Box>
         <Box>
           <Text>Grupo sanguíneo</Text>
           <Controller

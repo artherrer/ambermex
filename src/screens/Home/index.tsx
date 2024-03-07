@@ -1,16 +1,17 @@
-import { Avatar, Box, Divider, Fab, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
+import { faker } from '@faker-js/faker';
+import { Avatar, Box, Divider, FlatList, HStack, Icon, Image, Input, Text, VStack } from 'native-base';
 import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../components/Header';
-import Slider from '../../components/Slider';
 import PersonalAlert from '../../assets/images/alerts/personal.png';
-import { faker } from '@faker-js/faker';
+import ChatGroup from '../../assets/images/chat_group.png';
+import ChatIndividual from '../../assets/images/chat_individual.png';
+import ActionButton from '../../components/ActionButton/ActionButton';
+import AlertSlider from '../../components/AlertSlider';
+import Header from '../../components/Header';
 import { colors } from '../../theme/colors';
 
 function Conversation({ navigation, item }: any) {
-  console.warn(item);
-
   const goToConversation = () => {
     navigation.navigate('Conversation' as never);
   };
@@ -66,6 +67,15 @@ export default function Home({ navigation }: any) {
     </TouchableOpacity>
   );
 
+
+  const goToCreateChat = (type: string) => {
+    if(type === 'groupal') {
+      navigation.navigate('CreateGroupChat' as never);
+    } else {
+      navigation.navigate('CreateIndividualChat' as never);
+    }
+  }
+
   const clearText = () => {
     console.log('Clear text');
   };
@@ -73,7 +83,7 @@ export default function Home({ navigation }: any) {
   return (
     <>
       <Header RightElement={GoToSettings} />
-      <Slider />
+      <AlertSlider />
       <Box safeAreaBottom px={3} pt={3} flex={1}>
         <VStack w="100%" space={5} alignSelf="center" mb={3}>
           <Input
@@ -95,7 +105,14 @@ export default function Home({ navigation }: any) {
           data={conversations}
           renderItem={({ item }) => <Conversation navigation={navigation} item={item} />}
         />
-        <Fab position="absolute" size="lg" icon={<Icon as={MaterialIcons} color="white" fontSize="lg" name="add" />} />
+        <ActionButton buttonColor={colors.primary}>
+          <ActionButton.Item title="Nuevo canal grupal" onPress={() => goToCreateChat('groupal')}>
+            <Image source={ChatGroup} resizeMode={'contain'} w={70} h={70} alt="chat group" />
+          </ActionButton.Item>
+          <ActionButton.Item title="Nuevo canal individual" onPress={() => goToCreateChat('individual')}>
+            <Image source={ChatIndividual} resizeMode={'contain'} w={70} h={70} alt="chat individual" />
+          </ActionButton.Item>
+        </ActionButton>
       </Box>
     </>
   );

@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import { colors } from '../../theme/colors';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { faker } from '@faker-js/faker';
+import EditablePicture from '../../components/EditablePicture';
 
 export default function Setings() {
   const navigation = useNavigation();
@@ -172,16 +173,15 @@ export default function Setings() {
     }
   };
 
+  const selectImage = (image: any) => {
+    console.log(image);
+  }
+
   const renderHeader = () => {
     return (
       <Box px={6} bg={'white'} py={3} mb={5}>
         <HStack space={3} alignItems={'center'}>
-          <Avatar
-            size={'xl'}
-            source={{
-              uri: 'https://i.pravatar.cc/300',
-            }}
-          />
+          <EditablePicture image={null} onSelectImage={selectImage} />
           <VStack>
             <Text fontWeight={'bold'}>{faker.person.fullName()}</Text>
             <Text>{faker.date.birthdate().toDateString()}</Text>

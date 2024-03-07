@@ -1,12 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
 import { Box, Button, Input, Text } from 'native-base';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Header from '../../components/Header';
 
-export default function ChangePassword() {
-  const navigation = useNavigation();
-
+export default function ChangePassword({ navigation }) {
   const {
     control,
     handleSubmit,
