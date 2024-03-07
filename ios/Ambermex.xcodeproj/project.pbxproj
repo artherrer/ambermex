@@ -31,7 +31,7 @@
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ambermex-ambermexTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ambermex-ambermexTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F08EF8D6805B263F0D67B14 /* Pods-Production-Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Production-Staging.release.xcconfig"; path = "Target Support Files/Pods-Production-Staging/Pods-Production-Staging.release.xcconfig"; sourceTree = "<group>"; };
 		518AA9C7EB951765FE636757 /* libPods-Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		69D033B12B9A48FB004337D1 /* Ambermex (demo).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ambermex (demo).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69D033B12B9A48FB004337D1 /* Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Staging.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D033B42B9A4A7D004337D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ambermex/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95A815922D2E02450E52FE35 /* libPods-Production-Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Production-Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Ambermex.app */,
-				69D033B12B9A48FB004337D1 /* Ambermex (demo).app */,
+				69D033B12B9A48FB004337D1 /* Staging.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,7 +178,7 @@
 			);
 			name = Staging;
 			productName = ambermex;
-			productReference = 69D033B12B9A48FB004337D1 /* Ambermex (demo).app */;
+			productReference = 69D033B12B9A48FB004337D1 /* Staging.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -471,7 +471,6 @@
 				DEVELOPMENT_TEAM = QXQHLY673S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "ambermex-staging/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -483,7 +482,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.dev;
-				PRODUCT_NAME = "Ambermex (demo)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -502,7 +501,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QXQHLY673S;
 				INFOPLIST_FILE = "ambermex-staging/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -514,7 +512,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.dev;
-				PRODUCT_NAME = "Ambermex (demo)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
