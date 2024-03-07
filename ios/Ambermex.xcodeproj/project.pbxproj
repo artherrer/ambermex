@@ -7,16 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EB73933618CE7E685BCEA41 /* libPods-Production-Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A815922D2E02450E52FE35 /* libPods-Production-Staging.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		74770B798554406415A37CDF /* libPods-Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1344347351E7823CBB7EAB64 /* libPods-Production.a */; };
+		69D033A42B9A48FB004337D1 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		69D033A52B9A48FB004337D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		69D033A92B9A48FB004337D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		69D033AA2B9A48FB004337D1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		74770B798554406415A37CDF /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		C052BF84CA5AB6765F195489 /* libPods-Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 518AA9C7EB951765FE636757 /* libPods-Production.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0FBCACE8DEDF6734166BF56E /* Pods-Production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Production.debug.xcconfig"; path = "Target Support Files/Pods-Production/Pods-Production.debug.xcconfig"; sourceTree = "<group>"; };
-		1344347351E7823CBB7EAB64 /* libPods-Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Ambermex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambermex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ambermex/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ambermex/AppDelegate.mm; sourceTree = "<group>"; };
@@ -24,7 +29,13 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ambermex/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ambermex/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ambermex-ambermexTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ambermex-ambermexTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F08EF8D6805B263F0D67B14 /* Pods-Production-Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Production-Staging.release.xcconfig"; path = "Target Support Files/Pods-Production-Staging/Pods-Production-Staging.release.xcconfig"; sourceTree = "<group>"; };
+		518AA9C7EB951765FE636757 /* libPods-Production.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Production.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69D033B12B9A48FB004337D1 /* Ambermex (demo).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ambermex (demo).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69D033B42B9A4A7D004337D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ambermex/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		95A815922D2E02450E52FE35 /* libPods-Production-Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Production-Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B39AAD6854E76DC543BB1369 /* Pods-Production-Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Production-Staging.debug.xcconfig"; path = "Target Support Files/Pods-Production-Staging/Pods-Production-Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		E53592DA69ECF7684A4CD964 /* Pods-Production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Production.release.xcconfig"; path = "Target Support Files/Pods-Production/Pods-Production.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -34,14 +45,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74770B798554406415A37CDF /* libPods-Production.a in Frameworks */,
+				74770B798554406415A37CDF /* (null) in Frameworks */,
+				C052BF84CA5AB6765F195489 /* libPods-Production.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69D033A62B9A48FB004337D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EB73933618CE7E685BCEA41 /* libPods-Production-Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* ambermex */ = {
+		13B07FAE1A68108700A75B9A /* Ambermex */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -51,7 +71,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = ambermex;
+			name = Ambermex;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -59,9 +79,19 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-ambermex-ambermexTests.a */,
-				1344347351E7823CBB7EAB64 /* libPods-Production.a */,
+				95A815922D2E02450E52FE35 /* libPods-Production-Staging.a */,
+				518AA9C7EB951765FE636757 /* libPods-Production.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		69D033B32B9A4A05004337D1 /* AmbermexStaging */ = {
+			isa = PBXGroup;
+			children = (
+				69D033B42B9A4A7D004337D1 /* Info.plist */,
+			);
+			name = AmbermexStaging;
+			path = "ambermex-staging";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -74,7 +104,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* ambermex */,
+				69D033B32B9A4A05004337D1 /* AmbermexStaging */,
+				13B07FAE1A68108700A75B9A /* Ambermex */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -89,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Ambermex.app */,
+				69D033B12B9A48FB004337D1 /* Ambermex (demo).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,6 +130,8 @@
 			children = (
 				0FBCACE8DEDF6734166BF56E /* Pods-Production.debug.xcconfig */,
 				E53592DA69ECF7684A4CD964 /* Pods-Production.release.xcconfig */,
+				B39AAD6854E76DC543BB1369 /* Pods-Production-Staging.debug.xcconfig */,
+				1F08EF8D6805B263F0D67B14 /* Pods-Production-Staging.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -124,6 +158,27 @@
 			name = Production;
 			productName = ambermex;
 			productReference = 13B07F961A680F5B00A75B9A /* Ambermex.app */;
+			productType = "com.apple.product-type.application";
+		};
+		69D033A12B9A48FB004337D1 /* Staging */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69D033AE2B9A48FB004337D1 /* Build configuration list for PBXNativeTarget "Staging" */;
+			buildPhases = (
+				69D033A22B9A48FB004337D1 /* [CP] Check Pods Manifest.lock */,
+				69D033A32B9A48FB004337D1 /* Sources */,
+				69D033A62B9A48FB004337D1 /* Frameworks */,
+				69D033A82B9A48FB004337D1 /* Resources */,
+				69D033AB2B9A48FB004337D1 /* Bundle React Native code and images */,
+				69D033AC2B9A48FB004337D1 /* [CP] Embed Pods Frameworks */,
+				69D033AD2B9A48FB004337D1 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Staging;
+			productName = ambermex;
+			productReference = 69D033B12B9A48FB004337D1 /* Ambermex (demo).app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -153,6 +208,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Production */,
+				69D033A12B9A48FB004337D1 /* Staging */,
 			);
 		};
 /* End PBXProject section */
@@ -164,6 +220,15 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69D033A82B9A48FB004337D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69D033A92B9A48FB004337D1 /* LaunchScreen.storyboard in Resources */,
+				69D033AA2B9A48FB004337D1 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +266,78 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Production/Pods-Production-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69D033A22B9A48FB004337D1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Production-Staging-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69D033AB2B9A48FB004337D1 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
+		69D033AC2B9A48FB004337D1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69D033AD2B9A48FB004337D1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Production-Staging/Pods-Production-Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
@@ -254,6 +391,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69D033A32B9A48FB004337D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69D033A42B9A48FB004337D1 /* AppDelegate.mm in Sources */,
+				69D033A52B9A48FB004337D1 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -264,10 +410,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 85W7L642G9;
+				DEVELOPMENT_TEAM = QXQHLY673S;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = ambermex/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Ambermex;
+				INFOPLIST_FILE = Ambermex/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -278,8 +424,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = ambermex;
+				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.app;
 				PRODUCT_NAME = Ambermex;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -294,9 +439,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 85W7L642G9;
-				INFOPLIST_FILE = ambermex/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Ambermex;
+				DEVELOPMENT_TEAM = QXQHLY673S;
+				INFOPLIST_FILE = Ambermex/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,9 +452,70 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = ambermex;
+				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.app;
 				PRODUCT_NAME = Ambermex;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		69D033AF2B9A48FB004337D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B39AAD6854E76DC543BB1369 /* Pods-Production-Staging.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStaging;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXQHLY673S;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "ambermex-staging/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.dev;
+				PRODUCT_NAME = "Ambermex (demo)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		69D033B02B9A48FB004337D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F08EF8D6805B263F0D67B14 /* Pods-Production-Staging.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStaging;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QXQHLY673S;
+				INFOPLIST_FILE = "ambermex-staging/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "$(DISPLAY_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.botonambermex.dev;
+				PRODUCT_NAME = "Ambermex (demo)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -376,22 +582,15 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
-					" ",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -451,22 +650,15 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
-					" ",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -482,6 +674,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69D033AE2B9A48FB004337D1 /* Build configuration list for PBXNativeTarget "Staging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69D033AF2B9A48FB004337D1 /* Debug */,
+				69D033B02B9A48FB004337D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
