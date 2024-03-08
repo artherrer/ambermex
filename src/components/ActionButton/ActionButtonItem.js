@@ -95,7 +95,7 @@ export default class ActionButtonItem extends Component {
             height: size + SHADOW_SPACE + spacing,
           };
     return (
-      <Animated.View pointerEvents="box-none" style={[animatedViewStyle, parentStyle]}>
+      <Animated.View pointerEvents="box-none" style={[animatedViewStyle, parentStyle, {zIndex:0}]}>
         <View>
           <Touchable
             rejectResponderTermination

@@ -1,11 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
-import { Avatar, Box, Button, Icon, Input, Text, VStack } from 'native-base';
-import React from 'react';
-import Header from '../../components/Header';
-import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigation } from '@react-navigation/native';
+import { Avatar, Box, Button, Input, Text } from 'native-base';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
-import { faker } from '@faker-js/faker';
+import Header from '../../components/Header';
+import { Profile } from '../../models';
 
 const schema = yup
   .object({
@@ -19,6 +20,7 @@ const schema = yup
   .required();
 
 export default function MedicalRecord() {
+  const profile: Profile = useSelector((state: any) => state.profile.profile);
   const navigation = useNavigation();
 
   const {
@@ -48,13 +50,11 @@ export default function MedicalRecord() {
       <Box safeAreaBottom px={3} pt={3} flex={1}>
         <Box alignItems={'center'} my={6}>
           <Avatar
-            size={'xl'}
-            source={{
-              uri: faker.image.avatar(),
-            }}
+            size={120}
+            source={profile.image ? { uri: profile.image } : require('../../assets/images/user_placeholder.png')}
           />
           <Text fontWeight={'bold'} fontSize={18} textAlign={'center'}>
-            {faker.person.fullName()}
+            {profile.name} {profile.lastName}
           </Text>
         </Box>
         <Box>

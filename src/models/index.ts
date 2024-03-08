@@ -1,4 +1,12 @@
 
+export enum AlertType {
+  PERSONAL = 'personal',
+  MEDICAL = 'medical',
+  WOMAN = 'woman',
+  SUSPICIOUS = 'suspicious',
+  NEIGHBORHOOD = 'neighborhood',
+}
+
 export interface Login {
   email?: string;
   password?: string;
@@ -15,6 +23,8 @@ export interface Profile {
   email: string;
   phoneNumber: string;
   image?: string;
+  dob?: string;
+  address?: string;
 }
 
 

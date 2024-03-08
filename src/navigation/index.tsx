@@ -6,20 +6,21 @@ import { setLoading, setSignedIn } from '../slicers/auth';
 // Auth Screens
 import Auth from '../screens/Auth';
 import Login from '../screens/Login';
+import RecoverPassword from '../screens/RecoverPassword';
 
 // Dashboard Screens
-import Home from '../screens/Home';
-import Settings from '../screens/Settings';
+import AddContact from '../screens/AddContact';
+import AlertConversation from '../screens/AlertConversation';
 import ChangePassword from '../screens/ChangePassword';
 import ConfirmChangePassword from '../screens/ConfirmChangePassword';
-import SetAddress from '../screens/SetAddress';
-import MedicalRecord from '../screens/MedicalRecord';
-import AddContact from '../screens/AddContact';
-import ImportContact from '../screens/ImportContact';
 import Conversation from '../screens/Conversation';
-import AlertConversation from '../screens/AlertConversation';
-import CreateIndividualChat from '../screens/CreateIndividualChat';
 import CreateGroupChat from '../screens/CreateGroupChat';
+import CreateIndividualChat from '../screens/CreateIndividualChat';
+import Home from '../screens/Home';
+import ImportContact from '../screens/ImportContact';
+import MedicalRecord from '../screens/MedicalRecord';
+import SetAddress from '../screens/SetAddress';
+import Settings from '../screens/Settings';
 
 // Layouts
 import Loader from '../components/Loader';
@@ -27,7 +28,6 @@ import { dataToProfile } from '../models';
 import AsyncStorageService, { StorageKeys } from '../services/asyncstorage';
 import { axiosPrivate } from '../services/axios.service';
 import { setProfile } from '../slicers/profile';
-import Header from '../components/Header';
 // import NotificationDetail from '../screens/NotificationDetail';
 
 const Stack = createNativeStackNavigator();
@@ -78,6 +78,7 @@ export default function AppNavigator() {
         dispatch(setProfile(profile));
         dispatch(setSignedIn());
       } else {
+        dispatch(setProfile(null));
         dispatch(setLoading(false));
       }
     }
@@ -101,6 +102,7 @@ export default function AppNavigator() {
           }}>
           <Stack.Screen name="Auth" component={Auth} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
         </Stack.Group>
       )}
     </Stack.Navigator>

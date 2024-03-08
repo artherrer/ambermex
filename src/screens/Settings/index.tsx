@@ -1,17 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
-import { Avatar, Box, HStack, Icon, SectionList, Text, VStack } from 'native-base';
+import { Box, HStack, Icon, SectionList, Text, VStack } from 'native-base';
 import React from 'react';
 import { Linking, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../components/Header';
-import { colors } from '../../theme/colors';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
-import { faker } from '@faker-js/faker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch, useSelector } from 'react-redux';
 import EditablePicture from '../../components/EditablePicture';
-import { useDispatch } from 'react-redux';
+import Header from '../../components/Header';
+import { Profile } from '../../models';
 import { signOut } from '../../slicers/auth';
+import { colors } from '../../theme/colors';
+import { browserConfigs } from '../../lib/browserinapp';
 
 export default function Setings() {
+  const profile: Profile = useSelector((state: any) => state.profile.profile);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -143,33 +146,7 @@ export default function Setings() {
   const openLink = async (url: string) => {
     try {
       if (await InAppBrowser.isAvailable()) {
-        await InAppBrowser.open(url, {
-          // iOS Properties
-          dismissButtonStyle: 'cancel',
-          preferredBarTintColor: colors.primary,
-          preferredControlTintColor: 'white',
-          readerMode: false,
-          animated: true,
-          modalPresentationStyle: 'fullScreen',
-          modalTransitionStyle: 'coverVertical',
-          modalEnabled: true,
-          enableBarCollapsing: false,
-          // Android Properties
-          showTitle: true,
-          toolbarColor: '#6200EE',
-          secondaryToolbarColor: 'black',
-          enableUrlBarHiding: true,
-          enableDefaultShare: true,
-          forceCloseOnRedirection: false,
-          // Specify full animation resource identifier(package:anim/name)
-          // or only resource name(in case of animation bundled with app).
-          animations: {
-            startEnter: 'slide_in_right',
-            startExit: 'slide_out_left',
-            endEnter: 'slide_in_left',
-            endExit: 'slide_out_right',
-          },
-        });
+        await InAppBrowser.open(url, browserConfigs);
       } else Linking.openURL(url);
     } catch (error) {
       console.error(error);
@@ -178,19 +155,19 @@ export default function Setings() {
 
   const selectImage = (image: any) => {
     console.log(image);
-  }
+  };
 
   const renderHeader = () => {
     return (
       <Box px={6} bg={'white'} py={3} mb={5}>
         <HStack space={3} alignItems={'center'}>
-          <EditablePicture image={null} onSelectImage={selectImage} />
+          <EditablePicture image={profile.image} onSelectImage={selectImage} />
           <VStack>
-            <Text fontWeight={'bold'}>{faker.person.fullName()}</Text>
-            <Text>{faker.date.birthdate().toDateString()}</Text>
-            <Text>{faker.internet.email()}</Text>
-            <Text>{faker.phone.number()}</Text>
-            <Text>{faker.location.streetAddress()}</Text>
+            <Text fontWeight={'bold'}>{`${profile.name} ${profile.lastName}`}</Text>
+            <Text>{profile.dob}</Text>
+            <Text>{profile.email}</Text>
+            <Text>{profile.phoneNumber}</Text>
+            <Text>{profile.address}</Text>
           </VStack>
         </HStack>
       </Box>

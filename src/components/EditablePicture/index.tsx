@@ -5,15 +5,17 @@ import { useEffect, useState } from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface EditablePictureProps {
-  image: string | null;
+  image?: string | null;
   onSelectImage: (image: CropedImage) => void;
 }
 
-export default function EditablePicture({ image, onSelectImage }: EditablePictureProps) {
+export default function EditablePicture({ image, onSelectImage }: Readonly<EditablePictureProps>) {
   const [currentImage, setCurrentImage] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrentImage(image);
+    if (image) {
+      setCurrentImage(image);
+    }
   }, []);
 
   const selectImage = async () => {
@@ -33,7 +35,7 @@ export default function EditablePicture({ image, onSelectImage }: EditablePictur
   };
 
   return (
-    <Box >
+    <Box>
       <Box
         style={{
           shadowColor: '#000',

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { Avatar, Box, Divider, FlatList, HStack, Icon, Image, Input, Text, VStack } from 'native-base';
-import React, { useEffect } from 'react';
+import { Avatar, Box, Divider, FlatList, HStack, Icon, Image, Text, VStack } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import PersonalAlert from '../../assets/images/alerts/personal.png';
@@ -9,6 +9,7 @@ import ChatIndividual from '../../assets/images/chat_individual.png';
 import ActionButton from '../../components/ActionButton/ActionButton';
 import AlertSlider from '../../components/AlertSlider';
 import Header from '../../components/Header';
+import SearchBar from '../../components/SearchBar';
 import { colors } from '../../theme/colors';
 
 function Conversation({ navigation, item }: any) {
@@ -54,7 +55,8 @@ function Conversation({ navigation, item }: any) {
 }
 
 export default function Home({ navigation }: any) {
-  const [conversations, setConversations] = React.useState([] as any[]);
+  const [conversations, setConversations] = useState([] as any[]);
+  const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
     const newConversations = new Array(10).fill(0).map((_, i) => ({ id: i }));
@@ -67,40 +69,28 @@ export default function Home({ navigation }: any) {
     </TouchableOpacity>
   );
 
-
   const goToCreateChat = (type: string) => {
-    if(type === 'groupal') {
+    if (type === 'groupal') {
       navigation.navigate('CreateGroupChat' as never);
     } else {
       navigation.navigate('CreateIndividualChat' as never);
     }
-  }
+  };
 
   const clearText = () => {
-    console.log('Clear text');
+    setFilterText('');
+  };
+
+  const filterConversations = (filterText: string) => {
+    setFilterText(filterText);
   };
 
   return (
     <>
       <Header RightElement={GoToSettings} />
       <AlertSlider />
-      <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <VStack w="100%" space={5} alignSelf="center" mb={3}>
-          <Input
-            backgroundColor={'gray.200'}
-            placeholder="Search"
-            variant="filled"
-            width="100%"
-            height={10}
-            borderRadius="10"
-            py="1"
-            px="2"
-            InputLeftElement={<Icon as={MaterialIcons} name="search" size={6} color="gray.600" ml="2" />}
-            InputRightElement={
-              <Icon as={MaterialIcons} name="clear" size={6} color="gray.600" mr="2" onPress={clearText} />
-            }
-          />
-        </VStack>
+      <Box safeAreaBottom px={3} pt={3} flex={1} zIndex={-1}>
+        <SearchBar onClear={clearText} onSearch={filterConversations} filterText={filterText} />
         <FlatList
           data={conversations}
           renderItem={({ item }) => <Conversation navigation={navigation} item={item} />}

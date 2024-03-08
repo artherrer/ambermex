@@ -10,11 +10,8 @@ const theme = extendTheme({
     // }
     Text: {
       variants: {
-        link: {
-          color: colors.secondary,
-          _hover: {
-            color: colors.primary,
-          }
+        links: {
+          color: colors.primary,
         },
         title: {
           fontSize: 18,
