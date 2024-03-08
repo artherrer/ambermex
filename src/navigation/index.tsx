@@ -21,6 +21,8 @@ import ImportContact from '../screens/ImportContact';
 import MedicalRecord from '../screens/MedicalRecord';
 import SetAddress from '../screens/SetAddress';
 import Settings from '../screens/Settings';
+import Reports from '../screens/Reports';
+import ReportDetail from '../screens/ReportDetail';
 
 // Layouts
 import Loader from '../components/Loader';
@@ -52,6 +54,8 @@ function DashboardStack() {
       <Stack.Screen name="AlertConversation" component={AlertConversation} />
       <Stack.Screen name="CreateIndividualChat" component={CreateIndividualChat} />
       <Stack.Screen name="CreateGroupChat" component={CreateGroupChat} />
+      <Stack.Screen name="Reports" component={Reports} />
+      <Stack.Screen name="ReportDetail" component={ReportDetail} />
     </Stack.Navigator>
   );
 }

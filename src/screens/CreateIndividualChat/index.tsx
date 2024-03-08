@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 export default function CreateIndividualChat({ navigation }: any) {
   const selectContact = (contact: Contact) => {
     console.warn('Contact selected', contact);
+    navigation.navigate('Conversation', { contact });
   };
 
   return (

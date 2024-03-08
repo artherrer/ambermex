@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import EditablePicture from '../../components/EditablePicture';
 import Header from '../../components/Header';
-import { Profile } from '../../models';
+import { AlertType, Profile } from '../../models';
 import { signOut } from '../../slicers/auth';
 import { colors } from '../../theme/colors';
 import { browserConfigs } from '../../lib/browserinapp';
@@ -25,12 +25,16 @@ export default function Setings() {
         {
           title: 'Emergencias',
           checked: false,
-          action: () => {},
+          action: () => {
+            navigation.navigate('Reports' as never, { type: AlertType.PERSONAL } as never);
+          },
         },
         {
           title: 'Actividad sospechosa',
           checked: false,
-          action: () => {},
+          action: () => {
+            navigation.navigate('Reports' as never, { type: AlertType.SUSPICIOUS } as never);
+          },
         },
       ],
     },
@@ -110,21 +114,21 @@ export default function Setings() {
           title: 'Términos y condiciones',
           checked: true,
           action: () => {
-            navigation.navigate('MedicalRecord' as never);
+            openLink('https://www.botonambermex.com/terminos-de-uso');
           },
         },
         {
           title: 'Aviso de privacidad',
           checked: true,
           action: () => {
-            navigation.navigate('MedicalRecord' as never);
+            openLink('https://www.botonambermex.com/politicas-de-privacidad');
           },
         },
         {
           title: 'Contrato de licencia para el usuario',
           checked: true,
           action: () => {
-            navigation.navigate('MedicalRecord' as never);
+            openLink('https://www.botonambermex.com/tecnologias');
           },
         },
       ],

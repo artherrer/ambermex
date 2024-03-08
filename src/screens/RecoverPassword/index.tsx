@@ -87,7 +87,6 @@ export default function RecoverPassword({ navigation }: { navigation: any }) {
             {errors.phoneNumber && <Text color={colors.error}>{errors.phoneNumber.message}</Text>}
           </Box>
         </VStack>
-
         <VStack w={150}>
           <Button onPress={handleSubmit(onSubmit)} style={{ marginTop: 10 }}>
             Continuar

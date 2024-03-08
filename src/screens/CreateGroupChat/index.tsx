@@ -1,4 +1,4 @@
-import { Avatar, Box, FlatList, HStack, Input, Text } from 'native-base';
+import { Avatar, Box, FlatList, HStack, Icon, Input, Text, VStack } from 'native-base';
 import React, { useState } from 'react';
 import { Contact } from 'react-native-contacts';
 import ContactsList from '../../components/ContactsList';
@@ -10,6 +10,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { colors } from '../../theme/colors';
 import ActionButton from '../../components/ActionButton/ActionButton';
 import EditablePicture from '../../components/EditablePicture';
+import { TouchableOpacity } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const schema = yup
   .object({
@@ -34,6 +36,8 @@ export default function CreateGroupChat({ navigation }: any) {
 
   const onSubmit = (data: any) => {
     console.log(data);
+    if(!contacts.length) return;
+    navigation.navigate('Conversation', { data, contacts });
   };
 
   const onSelectImage = (image: any) => {
@@ -48,12 +52,29 @@ export default function CreateGroupChat({ navigation }: any) {
     }
   };
 
+  const renderContact = ({ item }: { item: Contact }) => {
+    return (
+      <VStack alignItems={'center'} ml={3} maxWidth={50}>
+        <TouchableOpacity
+          onPress={() => selectContact(item)}
+          style={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}>
+          <Icon as={MaterialIcons} name={'remove-circle'} size={5} color={colors.gray[400]} />
+        </TouchableOpacity>
+        {item.thumbnailPath && <Avatar source={{ uri: item.thumbnailPath }} />}
+        {!item.thumbnailPath && <Avatar source={require('../../assets/images/user_placeholder.png')} />}
+        <Text fontSize={8} textAlign={'center'}>
+          {item.givenName} {item.familyName}
+        </Text>
+      </VStack>
+    );
+  };
+
   return (
     <>
       <Header />
       <HStack space={3} alignItems={'center'} px={6} py={6}>
         <EditablePicture image={null} onSelectImage={onSelectImage} />
-        <Box flex={1}>
+        <Box>
           <Text>Nombre del canal</Text>
           <Controller
             control={control}
@@ -86,26 +107,13 @@ export default function CreateGroupChat({ navigation }: any) {
           />
         </Box>
       </HStack>
-      <FlatList
-        horizontal
-        data={contacts}
-        renderItem={({ item }: { item: Contact }) => (
-          <Box>
-            {item.hasThumbnail && <Avatar source={{ uri: item.thumbnailPath }} />}
-            {!item.hasThumbnail && <Avatar source={require('../../assets/images/user_placeholder.png')} />}
-            <Box>
-              <Text fontSize={10}>
-                {item.givenName} {item.familyName}
-              </Text>
-              <Text fontSize={10}>{item.phoneNumbers[0].number}</Text>
-            </Box>
-          </Box>
-        )}
-      />
-      <Box px={3}>
+      <Box mb={3}>
+        <FlatList horizontal data={contacts} renderItem={renderContact} />
+      </Box>
+      <Box px={3} flex={1}>
         <ContactsList onSelectedContact={selectContact} multiple />
       </Box>
-      <ActionButton buttonColor={colors.primary} onPress={handleSubmit(onSubmit)} useNativeDriver={true} active={true}>
+      <ActionButton buttonColor={colors.primary} onPress={handleSubmit(onSubmit)} useNativeDriver={true} active={false}>
         Crear
       </ActionButton>
     </>
