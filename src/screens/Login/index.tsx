@@ -1,15 +1,20 @@
-import React from 'react';
-import { Box, Button, Icon, Image, Input, Text, VStack } from 'native-base';
-import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { colors } from '../../theme/colors';
-import { useDispatch } from 'react-redux';
-import { setSignedIn } from '../../slicers/auth';
-import { Linking, TouchableOpacity } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Box, Button, Icon, Image, Input, Text, VStack } from 'native-base';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Alert, Linking, Platform, TouchableOpacity } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
+import * as yup from 'yup';
 import { browserConfigs } from '../../lib/browserinapp';
+import { dataToProfile } from '../../models';
+import AsyncStorageService, { StorageKeys } from '../../services/asyncstorage';
+import { axiosPublic } from '../../services/axios.service';
+import { setSignedIn } from '../../slicers/auth';
+import { setProfile } from '../../slicers/profile';
+import { colors } from '../../theme/colors';
 
 const schema = yup
   .object({
@@ -32,9 +37,33 @@ export default function Login({ navigation }: { navigation: any }) {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log(data);
-    dispatch(setSignedIn());
+
+    try {
+      const deviceInfo = {
+        os: Platform.OS,
+        model: DeviceInfo.getDeviceId(),
+        manufacturer: DeviceInfo.getBrand(),
+        language: 'es-MX',
+        serialNumber: await DeviceInfo.getUniqueId(),
+        buildNumber: DeviceInfo.getBuildNumber(),
+        codeName: await DeviceInfo.getDeviceName(),
+      };
+
+      console.warn(deviceInfo);
+
+      const response = await axiosPublic.post('/Auth/LoginXMPP', { ...data, userDevice: deviceInfo });
+      if (response.data.token) {
+        console.warn('TOKEN: ', response.data.token);
+        await AsyncStorageService.setItem(StorageKeys.AUTH_TOKEN, response.data.token);
+      }
+      dispatch(setProfile(dataToProfile(response.data)));
+      dispatch(setSignedIn());
+    } catch (error) {
+      console.warn(error);
+      Alert.alert('Error', 'Correo electrónico o contraseña incorrectos');
+    }
   };
 
   const goBack = () => {
@@ -43,7 +72,7 @@ export default function Login({ navigation }: { navigation: any }) {
 
   const goToRecoverPassword = () => {
     navigation.navigate('RecoverPassword' as never);
-  }
+  };
 
   const goToRegister = async (redirectTo: 'terms' | 'privacy') => {
     let url = 'https://almxwebcentralus.azurewebsites.net/AccountWeb/UserRegister';
@@ -113,8 +142,15 @@ export default function Login({ navigation }: { navigation: any }) {
 
         <Text style={[{ marginTop: 10, color: 'red.100' }]}>
           Al continuar, aceptas los
-          <Text color={colors.primary} variant={'link'} onPress={() => goToRegister('terms')}> Términos y Condiciones </Text>y la
-          <Text color={colors.primary} onPress={() => goToRegister('privacy')}> Política de Privacidad </Text>
+          <Text color={colors.primary} variant={'link'} onPress={() => goToRegister('terms')}>
+            {' '}
+            Términos y Condiciones{' '}
+          </Text>
+          y la
+          <Text color={colors.primary} onPress={() => goToRegister('privacy')}>
+            {' '}
+            Política de Privacidad{' '}
+          </Text>
         </Text>
       </Box>
     </Box>

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AlertType, Profile } from '../models';
-import { faker } from '@faker-js/faker';
 
 export const profileSlice = createSlice({
   name: 'profile',
@@ -10,16 +9,7 @@ export const profileSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) => {
-      state.profile = {
-        id: 1,
-        name: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        email: faker.internet.email(),
-        phoneNumber: faker.phone.number(),
-        dob: faker.date.past().toDateString(),
-        address: faker.location.streetAddress(),
-        image: faker.image.avatar(),
-      }
+      state.profile = action.payload;
     },
     setAlertType: (state, action) => {
       state.alertType = action.payload;
