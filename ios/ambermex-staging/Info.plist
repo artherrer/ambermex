@@ -45,6 +45,8 @@
 	<string>${PRODUCT_NAME} requires location access to provide you with the best experience.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>${PRODUCT_NAME} requires access to your microphone to provide you with the best experience.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Acceso para detectar movimiento. Usado para actualizar tu posición geográfica y determinar si entraste o saliste de área de cobertura.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>${PRODUCT_NAME} requires access to your photo library to provide you with the best experience.</string>
 	<key>UIAppFonts</key>
@@ -71,6 +73,8 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
