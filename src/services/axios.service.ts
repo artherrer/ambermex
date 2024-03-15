@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import AsyncStorageService, { StorageKeys } from './asyncstorage';
 import { store } from '../store';
 import { signOut } from '../slicers/auth';
 import { setProfile } from '../slicers/profile';
-
+import AuthService from './auth.service';
 
 export const BASE_URL = 'https://alertamxv2prodcentralus.azurewebsites.net';
 
@@ -15,6 +15,18 @@ const axiosPrivate = axios.create({
   baseURL: BASE_URL,
 });
 
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
+const subscribeTokenRefresh = (cb: (token: string) => void) => {
+  refreshSubscribers.push(cb);
+};
+
+const onRefreshed = (token: string) => {
+  refreshSubscribers.forEach(cb => cb(token));
+  refreshSubscribers = [];
+};
+
 axiosPrivate.interceptors.request.use(
   async config => {
     const token = await AsyncStorageService.getItem(StorageKeys.AUTH_TOKEN);
@@ -23,38 +35,47 @@ axiosPrivate.interceptors.request.use(
     }
     return config;
   },
-  error => {
-    return Promise.reject(error);
-  },
+  error => Promise.reject(error)
 );
 
 axiosPrivate.interceptors.response.use(
-  function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    return response;
-  },
-  function (error) {
+  response => response,
+  async error => {
+    const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-    console.warn(error);
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      if (!isRefreshing) {
+        isRefreshing = true;
 
+        try {
+          const response = await AuthService.refreshToken();
+          AsyncStorageService.setItem(StorageKeys.AUTH_TOKEN, response.data.token);
+          AsyncStorageService.setItem(StorageKeys.REFRESH_TOKEN, response.data.refresh);
 
-    if (!error.response) {
-      AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
-      store.dispatch(signOut());
-      store.dispatch(setProfile(null));
+          onRefreshed(response.data.token);
+          originalRequest.headers!.Authorization = 'Bearer ' + response.data.token;
+          originalRequest._retry = true;
+          return axiosPrivate(originalRequest);
+        } catch (error) {
+          AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
+          AsyncStorageService.removeItem(StorageKeys.REFRESH_TOKEN);
+          store.dispatch(signOut());
+          store.dispatch(setProfile(null));
+          return Promise.reject(error);
+        } finally {
+          isRefreshing = false;
+        }
+      } else {
+        return new Promise((resolve, reject) => {
+          subscribeTokenRefresh((token: string) => {
+            originalRequest.headers!.Authorization = 'Bearer ' + token;
+            resolve(axiosPrivate(originalRequest));
+          });
+        });
+      }
     }
-
-    if (error.response?.status === 401) {
-      // Any status codes that falls outside the range of 2xx cause this function to trigger
-      // Do something with response error
-      AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
-      store.dispatch(signOut());
-      store.dispatch(setProfile(null));
-    } else {
-      return Promise.reject(error);
-    }
-  },
+    return Promise.reject(error);
+  }
 );
 
 export { axiosPublic, axiosPrivate };

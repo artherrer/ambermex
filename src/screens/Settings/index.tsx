@@ -12,12 +12,14 @@ import { signOut } from '../../slicers/auth';
 import { colors } from '../../theme/colors';
 import { browserConfigs } from '../../lib/browserinapp';
 import { DateTime } from 'luxon';
+import { ShowAlert, AlertType as AlertTypeNotif } from '../../utils/alerts';
+import AssetService from '../../services/asset.service';
+import { Image } from 'react-native-image-crop-picker';
+import ProfileService from '../../services/profile.service';
 
 export default function Setings() {
+  const [loadingPicture, setLoadingPicture] = React.useState(false);
   const profile: Profile = useSelector((state: any) => state.profile.profile);
-
-  console.warn('profile', profile);
-
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -64,8 +66,15 @@ export default function Setings() {
       title: 'Contactos de emergencia',
       data: [
         {
+          title: 'Administrar contactos de emergencia',
+          checked: false,
+          action: () => {
+            navigation.navigate('EmergencyContacts' as never);
+          },
+        },
+        {
           title: 'Agrear nuevo contacto',
-          checked: true,
+          checked: false,
           action: () => {
             navigation.navigate('AddContact' as never);
           },
@@ -160,22 +169,39 @@ export default function Setings() {
     }
   };
 
-  const selectImage = (image: any) => {
+  const selectImage = async (image: Image) => {
     console.log(image);
+    setLoadingPicture(true);
+    try {
+      const response = await AssetService.upload(image);
+      console.log(response.data.secure_url);
+      await ProfileService.updateProfilePicture(response.data.secure_url);
+      ShowAlert('Imagen subida', 'La imagen se subió correctamente', AlertTypeNotif.SUCCESS);
+    } catch (error) {
+      ShowAlert('Error', 'No se pudo subir la imagen', AlertTypeNotif.ERROR, error);
+    } finally {
+      setLoadingPicture(false);
+    }
   };
 
   const renderHeader = () => {
     return (
       <Box px={6} bg={'white'} py={3} mb={5}>
         <HStack space={3} alignItems={'center'}>
-          <EditablePicture image={profile.pictureUrl} onSelectImage={selectImage} />
-          <VStack>
+          <EditablePicture image={profile.pictureUrl} onSelectImage={selectImage} loading={loadingPicture} />
+          <VStack flex={1}>
             <Text fontWeight={'bold'}>{`${profile.name} ${profile.lastName}`}</Text>
-            <Text>{DateTime.fromISO(profile.dob).toFormat('dd/MM/yyyy')}</Text>
-            <Text>{profile.email}</Text>
-            <Text>{profile.phone}</Text>
+            <Text color={colors.text} fontSize={12}>
+              {DateTime.fromISO(profile.dob).toFormat('dd/MM/yyyy')}
+            </Text>
+            <Text color={colors.text} fontSize={12}>
+              {profile.email}
+            </Text>
+            <Text color={colors.text} fontSize={12}>
+              {profile.phone}
+            </Text>
             {profile.primaryAddress && (
-              <Text>
+              <Text color={colors.text} fontSize={12}>
                 {profile.primaryAddress.address1} {profile.primaryAddress.address2}, {profile.primaryAddress.entity}.
                 C.P {profile.primaryAddress.postalCode}, {profile.primaryAddress.city}
               </Text>
@@ -216,7 +242,7 @@ export default function Setings() {
   return (
     <>
       <Header />
-      <Box safeAreaBottom pt={3} flex={1}>
+      <Box safeAreaBottom flex={1}>
         {renderHeader()}
 
         <SectionList

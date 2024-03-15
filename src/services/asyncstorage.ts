@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 enum StorageKeys {
   AUTH_TOKEN = 'auth_token',
-  AUTH_TOKEN_REFRESH = 'auth_token_refresh',
+  REFRESH_TOKEN = 'refresh_token',
   DEVICE_ID = 'device_id',
   ONE_SIGNAL_ID = 'one_signal_id',
   FINGERPRINT = 'fingerprint',

@@ -7,7 +7,15 @@ export enum AlertType {
   INFO = 'info',
 }
 
-export const ShowAlert = (title: string, message: string, type: AlertType = AlertType.SUCCESS) => {
+export const ShowAlert = (title: string, message: string, type: AlertType = AlertType.SUCCESS, error?: any) => {
+
+  if (error) {
+    if (error.response?.data) {
+      console.error(error.response.data)
+    } else {
+      console.error(error)
+    }
+  } 
   Notifier.showNotification({
     title,
     description: message,

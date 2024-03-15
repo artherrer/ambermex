@@ -9,9 +9,9 @@ import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 import AuthLayout from '../../components/Layouts/Auth';
 import { browserConfigs } from '../../lib/browserinapp';
-import { dataToProfile } from '../../models';
+import { Login, UserDevice, dataToProfile } from '../../models';
 import AsyncStorageService, { StorageKeys } from '../../services/asyncstorage';
-import { axiosPublic } from '../../services/axios.service';
+import AuthService from '../../services/auth.service';
 import { setSignedIn } from '../../slicers/auth';
 import { setProfile } from '../../slicers/profile';
 import { colors } from '../../theme/colors';
@@ -24,7 +24,7 @@ const schema = yup
   })
   .required();
 
-export default function Login({ navigation }: { navigation: any }) {
+export default function LoginScreen({ navigation }: { navigation: any }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const {
@@ -43,7 +43,12 @@ export default function Login({ navigation }: { navigation: any }) {
     setLoading(true);
 
     try {
-      const deviceInfo = {
+      const loginData: Login = {
+        username: data.username,
+        password: data.password,
+      };
+
+      const deviceInfo: UserDevice = {
         os: Platform.OS,
         model: DeviceInfo.getDeviceId(),
         manufacturer: DeviceInfo.getBrand(),
@@ -53,7 +58,9 @@ export default function Login({ navigation }: { navigation: any }) {
         codeName: await DeviceInfo.getDeviceName(),
       };
 
-      const response = await axiosPublic.post('/Auth/LoginXMPP', { ...data, userDevice: deviceInfo });
+      loginData.userDevice = deviceInfo;
+
+      const response = await AuthService.login(loginData);
 
       dispatch(
         setProfile(
@@ -69,9 +76,9 @@ export default function Login({ navigation }: { navigation: any }) {
         return;
       }
 
-      if (response.data.token) {
-        console.warn('TOKEN: ', response.data.token);
+      if (response.data.token && response.data.refresh) {
         await AsyncStorageService.setItem(StorageKeys.AUTH_TOKEN, response.data.token);
+        await AsyncStorageService.setItem(StorageKeys.REFRESH_TOKEN, response.data.refresh);
       }
 
       dispatch(setSignedIn());
@@ -109,7 +116,7 @@ export default function Login({ navigation }: { navigation: any }) {
 
   return (
     <AuthLayout title="Iniciar sesión" description="Ingresa tu correo electrónico y contraseña para continuar.">
-      <VStack  justifyContent={'center'} flex={1} space={7}>
+      <VStack justifyContent={'center'} flex={1} space={7}>
         <Box>
           <Text>Correo electrónico</Text>
           <Controller

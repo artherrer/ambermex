@@ -1,18 +1,21 @@
-import { Box, Button, Image, Text } from 'native-base';
-import React, { useState, useEffect } from 'react';
-import Header from '../../components/Header';
-import MapView from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import { faker } from '@faker-js/faker';
+import { Box, Button, Image, Text } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import MapView from 'react-native-maps';
+import { useSelector } from 'react-redux';
+import SettingsLayout from '../../components/Layouts/Settings';
+import { Profile } from '../../models';
+import { colors } from '../../theme/colors';
+import LocationService from '../../services/location.service';
+import { AlertType, ShowAlert } from '../../utils/alerts';
 
 export default function SetAddress() {
   const [location, setLocation] = useState<any>(null);
+  const profile: Profile = useSelector((state: any) => state.profile.profile);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position: any) => {
-        console.warn(position);
-
         setLocation(position);
       },
       (error: any) => {
@@ -22,27 +25,34 @@ export default function SetAddress() {
     );
   }, []);
 
-  const onSubmit = () => {
-    console.log('Setting address');
+  const onSubmit = async () => {
+    console.log('Setting address', location);
+
+    try {
+      await LocationService.SetAddress(location);
+      ShowAlert('Dirección actualizada', 'Tu dirección ha sido actualizada correctamente', AlertType.SUCCESS);
+    } catch (error) {
+      ShowAlert('Error', 'No se pudo actualizar tu dirección', AlertType.ERROR, error);
+    }
   };
 
   return (
-    <>
-      <Header />
+    <SettingsLayout
+      scrollEnabled={false}
+      title="Confirma la ubicación de tu dirección"
+      description='Párate al aire libre en la puerta de tu casa y verifica tu posición en el mapa. Al finalizar presiona "Confirmar"'>
       <Box safeAreaBottom px={3} pt={3} flex={1} justifyContent={'space-between'}>
         <Box alignItems={'center'}>
-          <Text variant={'title'} my={3}>
-            Confirma la ubicación de tu dirección
-          </Text>
-          <Text>
-            Párate al aire libre en la puerta de tu casa y verifica tu posición en el mapa. Al finalizar presiona{' '}
-            <Text style={{ fontWeight: '700' }}>"Confirmar"</Text>
-          </Text>
           <Image source={require('../../assets/images/address.png')} alt="map" size={200} resizeMode="contain" />
         </Box>
 
         <Box>
-          <Text mb={3}>Dirección: {faker.location.streetAddress()}</Text>
+          {profile.primaryAddress && (
+            <Text color={colors.text} fontSize={12}>
+              Dirección actual: {profile.primaryAddress.address1} {profile.primaryAddress.address2},{' '}
+              {profile.primaryAddress.entity}. C.P {profile.primaryAddress.postalCode}, {profile.primaryAddress.city}
+            </Text>
+          )}
           {location?.coords && (
             <MapView
               style={{ width: '100%', height: 200 }}
@@ -56,11 +66,11 @@ export default function SetAddress() {
               }}
             />
           )}
-          <Button onPress={onSubmit} style={{ marginTop: 10 }}>
-            Continuar
-          </Button>
         </Box>
       </Box>
-    </>
+      <Button onPress={onSubmit} style={{ marginTop: 10 }}>
+        Continuar
+      </Button>
+    </SettingsLayout>
   );
 }

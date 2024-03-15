@@ -1,27 +1,32 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigation } from '@react-navigation/native';
-import { Avatar, Box, Button, Input, Text } from 'native-base';
+import { Avatar, Box, Button, Input, Text, VStack } from 'native-base';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import Header from '../../components/Header';
-import { Profile } from '../../models';
+import SettingsLayout from '../../components/Layouts/Settings';
+import { MedicalData, Profile } from '../../models';
+import ProfileService from '../../services/profile.service';
+import { AlertType, ShowAlert } from '../../utils/alerts';
+import { setMedicalData } from '../../slicers/profile';
 
 const schema = yup
   .object({
-    bloodType: yup.string().required('El grupo sanguíneo es requerido'),
-    allergies: yup.string().required('Las alergias son requeridas'),
-    diseases: yup.string().required('Las enfermedades son requeridas'),
-    medications: yup.string().required('Los medicamentos son requeridos'),
-    weight: yup.string().required('El peso es requerido'),
-    height: yup.string().required('La altura es requerida'),
+    bloodType: yup.string(),
+    allergies: yup.string(),
+    ailments: yup.string(),
+    medications: yup.string(),
+    weight: yup.number(),
+    height: yup.number(),
   })
   .required();
 
 export default function MedicalRecord() {
   const profile: Profile = useSelector((state: any) => state.profile.profile);
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  console.warn("PROFILE", profile.medicalData);
+  
 
   const {
     control,
@@ -29,146 +34,137 @@ export default function MedicalRecord() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      bloodType: '',
-      allergies: '',
-      diseases: '',
-      medications: '',
-      weight: '',
-      height: '',
+      bloodType: profile.medicalData?.bloodType ?? '',
+      allergies: profile.medicalData?.allergies ?? '',
+      ailments: profile.medicalData?.ailments ?? '',
+      medications: profile.medicalData?.medications ?? '',
+      weight: profile.medicalData?.weight ?? 0,
+      height: profile.medicalData?.height ?? 0,
     },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigation.navigate('ConfirmChangePassword' as never);
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await ProfileService.setMedicalRecord(data);
+      console.warn("RES", response.data);
+      console.warn("DATA", data);
+      
+      
+      dispatch(setMedicalData(data));
+      ShowAlert('Éxito', 'Datos médicos guardados', AlertType.SUCCESS);
+    } catch (error: any) {
+      ShowAlert('Error', 'No se pudieron guardar los datos médicos', AlertType.ERROR, error);
+    }
   };
 
   return (
-    <>
-      <Header />
-      <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <Box alignItems={'center'} my={6}>
+    <SettingsLayout
+      title="Fichatos médica"
+      description="Completa tu información médica para que en caso de emergencia, los servicios de salud puedan atenderte de manera más eficiente.">
+      <Box flex={1}>
+        <Box alignItems={'center'} mb={6}>
           <Avatar
             size={120}
-            source={profile.image ? { uri: profile.image } : require('../../assets/images/user_placeholder.png')}
+            source={
+              profile.pictureUrl ? { uri: profile.pictureUrl } : require('../../assets/images/user_placeholder.png')
+            }
           />
           <Text fontWeight={'bold'} fontSize={18} textAlign={'center'}>
             {profile.name} {profile.lastName}
           </Text>
         </Box>
-        <Box>
-          <Text>Grupo sanguíneo</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Grupo sanguíneo"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="bloodType"
-          />
-          {errors.bloodType && <Text color={'red.500'}>{errors.bloodType.message}</Text>}
-        </Box>
 
-        <Box>
-          <Text>Alergias</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Alergias"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="allergies"
-          />
-          {errors.allergies && <Text color={'red.500'}>{errors.allergies.message}</Text>}
-        </Box>
+        <VStack space={5}>
+          <Box>
+            <Text>Grupo sanguíneo</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input placeholder="Grupo sanguíneo" onBlur={onBlur} onChangeText={onChange} value={value} />
+              )}
+              name="bloodType"
+            />
+            {errors.bloodType && <Text color={'red.500'}>{errors.bloodType.message}</Text>}
+          </Box>
 
-        <Box>
-          <Text>Enfermedades</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Enfermedades"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="diseases"
-          />
-          {errors.diseases && <Text color={'red.500'}>{errors.diseases.message}</Text>}
-        </Box>
+          <Box>
+            <Text>Alergias</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input placeholder="Alergias" onBlur={onBlur} onChangeText={onChange} value={value} />
+              )}
+              name="allergies"
+            />
+            {errors.allergies && <Text color={'red.500'}>{errors.allergies.message}</Text>}
+          </Box>
 
-        <Box>
-          <Text>Medicamentos</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Medicamentos"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="medications"
-          />
-          {errors.medications && <Text color={'red.500'}>{errors.medications.message}</Text>}
-        </Box>
+          <Box>
+            <Text>Enfermedades</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input placeholder="Enfermedades" onBlur={onBlur} onChangeText={onChange} value={value} />
+              )}
+              name="ailments"
+            />
+            {errors.ailments && <Text color={'red.500'}>{errors.ailments.message}</Text>}
+          </Box>
 
-        <Box>
-          <Text>Peso</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Peso"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="weight"
-          />
-          {errors.weight && <Text color={'red.500'}>{errors.weight.message}</Text>}
-        </Box>
+          <Box>
+            <Text>Medicamentos</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input placeholder="Medicamentos" onBlur={onBlur} onChangeText={onChange} value={value} />
+              )}
+              name="medications"
+            />
+            {errors.medications && <Text color={'red.500'}>{errors.medications.message}</Text>}
+          </Box>
 
-        <Box>
-          <Text>Altura</Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                placeholder="Altura"
-                style={{ marginTop: 10 }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name="height"
-          />
-          {errors.height && <Text color={'red.500'}>{errors.height.message}</Text>}
-        </Box>
+          <Box>
+            <Text>Peso</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  placeholder="Peso"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value?.toString()}
+                  keyboardType="numeric"
+                />
+              )}
+              name="weight"
+            />
+            {errors.weight && <Text color={'red.500'}>{errors.weight.message}</Text>}
+          </Box>
 
-        <Button onPress={handleSubmit(onSubmit)} style={{ marginTop: 10 }}>
+          <Box>
+            <Text>Altura</Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  placeholder="Altura"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value?.toString()}
+                  keyboardType="numeric"
+                />
+              )}
+              name="height"
+            />
+            {errors.height && <Text color={'red.500'}>{errors.height.message}</Text>}
+          </Box>
+        </VStack>
+
+        <Button mt={10} onPress={handleSubmit(onSubmit)}>
           Continuar
         </Button>
       </Box>
-    </>
+    </SettingsLayout>
   );
 }

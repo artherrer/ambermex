@@ -1,11 +1,34 @@
-import { useNavigation } from '@react-navigation/native';
-import { Box, Button, Input, Text } from 'native-base';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Input, Text, VStack } from 'native-base';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import Header from '../../components/Header';
+import { useSelector } from 'react-redux';
+import * as yup from 'yup';
+import SettingsLayout from '../../components/Layouts/Settings';
+import { Profile } from '../../models';
+import AuthService from '../../services/auth.service';
+import { AlertType, ShowAlert } from '../../utils/alerts';
+import { passwordRegex } from '../../utils/password';
 
-export default function ConfirmChangePassword() {
-  const navigation = useNavigation();
+const schema = yup
+  .object({
+    password: yup.string().required('Contraseña requerida').matches(passwordRegex, {
+      message: 'La contraseña debe tener al menos 8 caracteres, una letra y un número',
+    }),
+    confirm_password: yup
+      .string()
+      .required('Confirmar contraseña requerida')
+      .oneOf([yup.ref('password')], 'Las contraseñas deben coincidir'),
+  })
+  .required();
+
+interface ConfirmChangePasswordProps {
+  route: any;
+  navigation: any;
+}
+export default function ConfirmChangePassword({ route, navigation }: ConfirmChangePasswordProps) {
+  const profile: Profile = useSelector((state: any) => state.profile.profile);
+  const currentPassword = route.params?.currentPassword;
 
   const {
     control,
@@ -14,27 +37,37 @@ export default function ConfirmChangePassword() {
   } = useForm({
     defaultValues: {
       password: '',
-      confirmPassword: '',
+      confirm_password: '',
     },
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigation.navigate('ConfirmChangePassword' as never);
+  const onSubmit = async (data: any) => {
+    if (!currentPassword) {
+      ShowAlert('Error', 'No se pudo recuperar la contraseña', AlertType.ERROR);
+      return;
+    }
+    try {
+      await AuthService.restorePassword({
+        userId: profile.userId,
+        newPassword: data.password,
+        code: currentPassword,
+        passwordProvided: true,
+      });
+      ShowAlert('Éxito', 'Contraseña cambiada correctamente', AlertType.SUCCESS);
+      navigation.navigate('Settings');
+    } catch (error) {
+      ShowAlert('Error', 'No se pudo recuperar la contraseña', AlertType.ERROR, error);
+    }
   };
 
   return (
-    <>
-      <Header />
-      <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <Box alignItems={'center'} mb={10}>
-          <Text variant={'title'} my={3}>
-            Asignar nueva contraseña
-          </Text>
-          <Text textAlign={'center'}>Asigna una nueva contraseña para tu cuenta.</Text>
-        </Box>
-
-        <Box px={3} mt={6}>
+    <SettingsLayout
+      title="Asignar nueva contraseña"
+      description="Elige una nueva contraseña de seis caracteres con una combinación de
+    mayúsculas, minúsculas y números.">
+      <VStack flex={1} justifyContent={'center'} space={10}>
+        <Box>
           <Text fontWeight={'bold'}>Nueva contraseña</Text>
           <Controller
             control={control}
@@ -49,12 +82,10 @@ export default function ConfirmChangePassword() {
               />
             )}
             name="password"
-            rules={{ required: 'Contraseña requerida', minLength: { value: 3, message: 'Mínimo 3 caracteres' } }}
-            defaultValue=""
           />
           {errors.password && <Text color={'red.500'}>{errors.password.message}</Text>}
         </Box>
-        <Box px={3} mt={6}>
+        <Box>
           <Text fontWeight={'bold'}>Confirmar contraseña</Text>
           <Controller
             control={control}
@@ -68,21 +99,15 @@ export default function ConfirmChangePassword() {
                 value={value}
               />
             )}
-            name="confirmPassword"
-            rules={{
-              required: 'Contraseña requerida',
-              minLength: { value: 3, message: 'Mínimo 3 caracteres' },
-              validate: value => value === 'password' || 'Las contraseñas no coinciden',
-            }}
-            defaultValue=""
+            name="confirm_password"
           />
-          {errors.confirmPassword && <Text color={'red.500'}>{errors.confirmPassword.message}</Text>}
+          {errors.confirm_password && <Text color={'red.500'}>{errors.confirm_password.message}</Text>}
         </Box>
+      </VStack>
 
-        <Button onPress={handleSubmit(onSubmit)} style={{ marginTop: 10 }}>
-          Continuar
-        </Button>
-      </Box>
-    </>
+      <Button onPress={handleSubmit(onSubmit)} style={{ marginTop: 10 }}>
+        Continuar
+      </Button>
+    </SettingsLayout>
   );
 }

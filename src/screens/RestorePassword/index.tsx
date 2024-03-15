@@ -5,18 +5,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { Alert } from 'react-native';
 import * as yup from 'yup';
 import AuthLayout from '../../components/Layouts/Auth';
-import { axiosPublic } from '../../services/axios.service';
+import AuthService from '../../services/auth.service';
 import { colors } from '../../theme/colors';
 import { AlertType, ShowAlert } from '../../utils/alerts';
+import { passwordRegex } from '../../utils/password';
 
 const schema = yup
   .object({
-    password: yup
-      .string()
-      .required('Contraseña requerida')
-      .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
-        message: 'La contraseña debe tener al menos 8 caracteres, una letra y un número',
-      }),
+    password: yup.string().required('Contraseña requerida').matches(passwordRegex, {
+      message: 'La contraseña debe tener al menos 8 caracteres, una letra y un número',
+    }),
     confirm_password: yup
       .string()
       .required('Confirmar contraseña requerida')
@@ -29,7 +27,7 @@ interface RestorePasswordProps {
   navigation: any;
   route: any;
 }
-export default function RestorePassword({ navigation, route }: RestorePasswordProps) {
+export default function RestorePasswordScreen({ navigation, route }: RestorePasswordProps) {
   const userId = route.params.userId;
   const phone = route.params.phone;
 
@@ -52,7 +50,7 @@ export default function RestorePassword({ navigation, route }: RestorePasswordPr
 
     if (!userId) return Alert.alert('Error', 'No se pudo recuperar la contraseña');
     try {
-      await axiosPublic.post('/Auth/ChangePassword', { userId, newPassword: data.password, code: data.code });
+      await AuthService.restorePassword({ userId, newPassword: data.password, code: data.code });
       ShowAlert('Éxito', 'Contraseña cambiada correctamente', AlertType.SUCCESS);
       navigation.navigate('Login');
     } catch (error) {
@@ -66,7 +64,7 @@ export default function RestorePassword({ navigation, route }: RestorePasswordPr
   const sendCode = async () => {
     if (!phone) return ShowAlert('Error', 'No se pudo enviar el código de verificación', AlertType.ERROR);
     try {
-      await axiosPublic.post('/Auth/RecoverAccount', { identificationString: phone });
+      await AuthService.sendCode({ identificationString: phone });
       ShowAlert('Éxito', 'Código de verificación enviado', AlertType.SUCCESS);
     } catch (error) {
       console.error(error);

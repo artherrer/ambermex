@@ -9,9 +9,24 @@ export enum AlertType {
 
 
 export interface Login {
-  email: string;
+  username: string;
   password: string;
   userDevice?: UserDevice;
+}
+
+export interface RecoverPassword {
+  phone: string;
+}
+
+export interface RestorePassword {
+  userId: string;
+  newPassword: string;
+  code: string;
+  passwordProvided?: boolean;
+}
+
+export interface SendCode {
+  identificationString: string;
 }
 
 export interface UserDevice {
@@ -36,7 +51,7 @@ export interface Profile {
   verifiedPhone: boolean
   verifiedIdentity: number
   verifiedEmail: boolean
-  emergencyContacts: any
+  emergencyContacts: EmergencyContact[]
   totalUsers: number
   nearbyUsers: number
   medicalDataEnabled: boolean
@@ -62,6 +77,17 @@ export interface Profile {
   primaryAddress?: PrimaryAddress
   membershipProducts?: MembershipProduct[]
   password?: string
+}
+
+
+export interface EmergencyContact {
+  name: string
+  phone: string
+  jid?: any
+  nickname?: any
+  picture?: any
+  lastName?: any
+  gender: number
 }
 
 
@@ -107,7 +133,6 @@ export const dataToProfile = (data: any): Profile => {
     verifiedPhone: data.verifiedPhone,
     verifiedIdentity: data.verifiedIdentity,
     verifiedEmail: data.verifiedEmail,
-    emergencyContacts: data.emergencyContacts,
     totalUsers: data.totalUsers,
     nearbyUsers: data.nearbyUsers,
     medicalDataEnabled: data.medicalDataEnabled,
@@ -117,6 +142,7 @@ export const dataToProfile = (data: any): Profile => {
     medicalData: dataToMedicalData(data.medicalData),
     primaryAddress: dataToPrimaryAddress(data.primaryAddress),
     membershipProducts: dataToMembershipProducts(data.membershipProducts),
+    emergencyContacts: dataToEmergencyContacts(data.emergencyContacts),
     termsAccepted: data.termsAccepted,
     responseType: data.response,
     gender: data.gender,
@@ -137,6 +163,8 @@ export const dataToProfile = (data: any): Profile => {
 };
 
 export const dataToMedicalData = (data: any): MedicalData => {
+  console.warn("DATA", data);
+  
   return {
     bloodType: data?.bloodType ?? '',
     allergies: data?.allergies ?? '',
@@ -173,4 +201,21 @@ export const dataToMembershipProduct = (data: any): MembershipProduct => {
 
 export const dataToMembershipProducts = (data: any): MembershipProduct[] => {
   return data.map((membershipProduct: any) => dataToMembershipProduct(membershipProduct));
+}
+
+
+export const dataToEmergencyContact = (data: any): EmergencyContact => {
+  return {
+    gender: data.gender,
+    jid: data.jid,
+    name: data.name,
+    lastName: data.lastName,
+    nickname: data.nickname,
+    phone: data.phone,
+    picture: data.picture,
+  };
+}
+
+export const dataToEmergencyContacts = (data: any): EmergencyContact[] => {
+  return data.map((emergencyContact: any) => dataToEmergencyContact(emergencyContact));
 }

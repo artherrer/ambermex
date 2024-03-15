@@ -26,6 +26,7 @@ import SetAddress from '../screens/SetAddress';
 import Settings from '../screens/Settings';
 import Reports from '../screens/Reports';
 import ReportDetail from '../screens/ReportDetail';
+import EmergencyContacts from '../screens/EmergencyContacts';
 
 // Layouts
 import Loader from '../components/Loader';
@@ -33,6 +34,7 @@ import { dataToProfile } from '../models';
 import AsyncStorageService, { StorageKeys } from '../services/asyncstorage';
 import { axiosPrivate } from '../services/axios.service';
 import { setProfile } from '../slicers/profile';
+import ProfileService from '../services/profile.service';
 // import NotificationDetail from '../screens/NotificationDetail';
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +61,7 @@ function DashboardStack() {
       <Stack.Screen name="CreateGroupChat" component={CreateGroupChat} />
       <Stack.Screen name="Reports" component={Reports} />
       <Stack.Screen name="ReportDetail" component={ReportDetail} />
+      <Stack.Screen name="EmergencyContacts" component={EmergencyContacts} />
     </Stack.Navigator>
   );
 }
@@ -79,7 +82,7 @@ export default function AppNavigator() {
     async function checkAuth() {
       const token = await AsyncStorageService.getItem(StorageKeys.AUTH_TOKEN);
       if (token) {
-        const { data } = await axiosPrivate.get('/Auth/GetUserData');
+        const { data } = await ProfileService.getProfile();
         dispatch(setProfile(dataToProfile(data.user)));
         dispatch(setSignedIn());
       } else {

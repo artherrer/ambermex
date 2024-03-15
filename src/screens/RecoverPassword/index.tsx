@@ -7,6 +7,8 @@ import AuthLayout from '../../components/Layouts/Auth';
 import { axiosPublic } from '../../services/axios.service';
 import { colors } from '../../theme/colors';
 import { AlertType, ShowAlert } from '../../utils/alerts';
+import AuthService from '../../services/auth.service';
+import { RecoverPassword } from '../../models';
 
 const schema = yup
   .object({
@@ -17,7 +19,7 @@ const schema = yup
 interface RecoverPasswordProps {
   navigation: any;
 }
-export default function RecoverPassword({ navigation }: RecoverPasswordProps) {
+export default function RecoverPasswordScreen({ navigation }: RecoverPasswordProps) {
   const [loading, setLoading] = useState(false);
   const {
     control,
@@ -30,10 +32,10 @@ export default function RecoverPassword({ navigation }: RecoverPasswordProps) {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: RecoverPassword) => {
     setLoading(true);
     try {
-      const response = await axiosPublic.post('/Auth/GetValidationCode', { phone: data.phone });
+      const response = await AuthService.recoverPassword(data);
       navigation.navigate('RestorePassword', { userId: response.data.userId, phone: data.phone });
     } catch (error) {
       console.error(error);

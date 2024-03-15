@@ -1,19 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Input, Text } from 'native-base';
+import { Box, Button, Input, Text, VStack } from 'native-base';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import Header from '../../components/Header';
+import SettingsLayout from '../../components/Layouts/Settings';
+import EmergencyContactService from '../../services/emergencyContacts.service';
+import { AlertType, ShowAlert } from '../../utils/alerts';
+import { useDispatch } from 'react-redux';
+import { addEmergencyContact } from '../../slicers/profile';
 
 const schema = yup
   .object({
     name: yup.string().required('Nombre requerido'),
-    phoneNumber: yup.string().required('Teléfono requerido'),
+    phone: yup.string().required('Teléfono requerido'),
     gender: yup.string().required('Género requerido'),
   })
   .required();
 
 export default function AddContact({ navigation, route }: any) {
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -22,7 +27,7 @@ export default function AddContact({ navigation, route }: any) {
   } = useForm({
     defaultValues: {
       name: '',
-      phoneNumber: '',
+      phone: '',
       gender: '',
     },
     resolver: yupResolver(schema),
@@ -30,11 +35,9 @@ export default function AddContact({ navigation, route }: any) {
 
   useEffect(() => {
     if (route.params?.contact) {
-      console.warn(route.params?.contact);
-
       const { givenName, familyName, phoneNumbers } = route.params.contact;
       setValue('name', `${givenName} ${familyName}`);
-      setValue('phoneNumber', phoneNumbers[0].number);
+      setValue('phone', phoneNumbers[0].number);
     }
   }, [route.params]);
 
@@ -42,24 +45,29 @@ export default function AddContact({ navigation, route }: any) {
     navigation.navigate('ImportContact' as never);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log(data);
-    navigation.navigate('Settings' as never);
+
+    try {
+      const response = await EmergencyContactService.addEmergencyContact(data);
+
+      if (response.data.contactsAdded.length > 0) {
+        ShowAlert('Éxito', 'Contacto de emergencia guardado', AlertType.SUCCESS);
+        dispatch(addEmergencyContact(response.data.contactsAdded[0]));
+        navigation.navigate('EmergencyContacts');
+      } else {
+        ShowAlert('Error', 'No se pudo guardar el contacto de emergencia', AlertType.ERROR);
+      }
+    } catch (error) {
+      ShowAlert('Error', 'No se pudo guardar el contacto de emergencia', AlertType.ERROR, error);
+    }
   };
 
   return (
-    <>
-      <Header />
-      <Box safeAreaBottom px={3} pt={3} flex={1}>
-        <Box alignItems={'center'} mb={10}>
-          <Text variant={'title'} my={3}>
-            Añadir contacto de emergencia
-          </Text>
-          <Text textAlign={'center'}>
-            Los contactos en esta lista serán notificados siempre que detones una alerta, sin importar el grupo en que
-            lo hagas.
-          </Text>
-        </Box>
+    <SettingsLayout
+      title="Añadir contacto de emergencia"
+      description="Los contactos en esta lista serán notificados siempre que detones una alerta, sin importar el grupo en que lo hagas.">
+      <VStack flex={1} space={4} justifyContent={'center'}>
         <Box mb={3}>
           <Text>Nombre</Text>
           <Controller
@@ -78,9 +86,9 @@ export default function AddContact({ navigation, route }: any) {
             render={({ field: { onChange, onBlur, value } }) => (
               <Input placeholder="Alergias" onBlur={onBlur} onChangeText={onChange} value={value} />
             )}
-            name="phoneNumber"
+            name="phone"
           />
-          {errors.phoneNumber && <Text color={'red.500'}>{errors.phoneNumber.message}</Text>}
+          {errors.phone && <Text color={'red.500'}>{errors.phone.message}</Text>}
         </Box>
         <Box mb={3}>
           <Text>Género</Text>
@@ -93,13 +101,15 @@ export default function AddContact({ navigation, route }: any) {
           />
           {errors.gender && <Text color={'red.500'}>{errors.gender.message}</Text>}
         </Box>
-        <Button onPress={goToImportContact} variant={'link'}>
-          Importar contacto
-        </Button>
+      </VStack>
+      <Box>
         <Button onPress={handleSubmit(onSubmit)} mt={6}>
           Guardar
         </Button>
+        <Button onPress={goToImportContact} variant={'link'}>
+          Importar contacto
+        </Button>
       </Box>
-    </>
+    </SettingsLayout>
   );
 }

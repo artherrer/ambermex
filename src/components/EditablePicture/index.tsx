@@ -7,9 +7,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 interface EditablePictureProps {
   image?: string | null;
   onSelectImage: (image: CropedImage) => void;
+  loading?: boolean;
 }
 
-export default function EditablePicture({ image, onSelectImage }: Readonly<EditablePictureProps>) {
+export default function EditablePicture({ image, onSelectImage, loading }: Readonly<EditablePictureProps>) {
   const [currentImage, setCurrentImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,6 +37,20 @@ export default function EditablePicture({ image, onSelectImage }: Readonly<Edita
 
   return (
     <Box>
+      {loading && (
+        <Box
+          style={{
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            width: 100,
+            height: 100,
+            borderRadius: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Icon as={MaterialIcons} name="sync" color={'white'} size={30} />
+        </Box>
+      )}
       <Box
         style={{
           shadowColor: '#000',
