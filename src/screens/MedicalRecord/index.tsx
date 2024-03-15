@@ -25,9 +25,6 @@ export default function MedicalRecord() {
   const profile: Profile = useSelector((state: any) => state.profile.profile);
   const dispatch = useDispatch();
 
-  console.warn("PROFILE", profile.medicalData);
-  
-
   const {
     control,
     handleSubmit,
@@ -47,10 +44,6 @@ export default function MedicalRecord() {
   const onSubmit = async (data: any) => {
     try {
       const response = await ProfileService.setMedicalRecord(data);
-      console.warn("RES", response.data);
-      console.warn("DATA", data);
-      
-      
       dispatch(setMedicalData(data));
       ShowAlert('Éxito', 'Datos médicos guardados', AlertType.SUCCESS);
     } catch (error: any) {

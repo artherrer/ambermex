@@ -54,8 +54,7 @@ export default function RestorePasswordScreen({ navigation, route }: RestorePass
       ShowAlert('Éxito', 'Contraseña cambiada correctamente', AlertType.SUCCESS);
       navigation.navigate('Login');
     } catch (error) {
-      console.error(error);
-      ShowAlert('Error', 'No se pudo recuperar la contraseña', AlertType.ERROR);
+      ShowAlert('Error', 'No se pudo recuperar la contraseña', AlertType.ERROR, error);
     } finally {
       setLoading(false);
     }
@@ -67,8 +66,7 @@ export default function RestorePasswordScreen({ navigation, route }: RestorePass
       await AuthService.sendCode({ identificationString: phone });
       ShowAlert('Éxito', 'Código de verificación enviado', AlertType.SUCCESS);
     } catch (error) {
-      console.error(error);
-      ShowAlert('Error', 'No se pudo enviar el código de verificación', AlertType.ERROR);
+      ShowAlert('Error', 'No se pudo enviar el código de verificación', AlertType.ERROR, error);
     }
   };
 

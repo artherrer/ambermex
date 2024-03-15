@@ -16,6 +16,7 @@ import { setSignedIn } from '../../slicers/auth';
 import { setProfile } from '../../slicers/profile';
 import { colors } from '../../theme/colors';
 import { AlertType, ShowAlert } from '../../utils/alerts';
+import ProfileService from '../../services/profile.service';
 
 const schema = yup
   .object({
@@ -60,34 +61,32 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
 
       loginData.userDevice = deviceInfo;
 
-      const response = await AuthService.login(loginData);
+      const responseToken = await AuthService.login(loginData);
+
+      if (responseToken.data.challenge) {
+        navigation.navigate('DeviceAlreadyLinked');
+        return;
+      }
+
+      if (responseToken.data.token && responseToken.data.refresh) {
+        await AsyncStorageService.setItem(StorageKeys.AUTH_TOKEN, responseToken.data.token);
+        await AsyncStorageService.setItem(StorageKeys.REFRESH_TOKEN, responseToken.data.refresh);
+      }
+
+      const response = await ProfileService.getProfile();
 
       dispatch(
         setProfile(
           dataToProfile({
-            ...response.data.user_data,
+            ...response.data.user,
             password: data.password,
           }),
         ),
       );
 
-      if (response.data.challenge) {
-        navigation.navigate('DeviceAlreadyLinked');
-        return;
-      }
-
-      if (response.data.token && response.data.refresh) {
-        await AsyncStorageService.setItem(StorageKeys.AUTH_TOKEN, response.data.token);
-        await AsyncStorageService.setItem(StorageKeys.REFRESH_TOKEN, response.data.refresh);
-      }
-
       dispatch(setSignedIn());
     } catch (error: any) {
-      console.warn(error);
-      if (error.response.data) {
-        console.warn(error.response.data);
-      }
-      ShowAlert('Error', 'Correo electrónico o contraseña incorrectos', AlertType.ERROR);
+      ShowAlert('Error', 'Correo electrónico o contraseña incorrectos', AlertType.ERROR, error);
     } finally {
       setLoading(false);
     }

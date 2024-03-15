@@ -16,6 +16,7 @@ import { ShowAlert, AlertType as AlertTypeNotif } from '../../utils/alerts';
 import AssetService from '../../services/asset.service';
 import { Image } from 'react-native-image-crop-picker';
 import ProfileService from '../../services/profile.service';
+import AuthService from '../../services/auth.service';
 
 export default function Setings() {
   const [loadingPicture, setLoadingPicture] = React.useState(false);
@@ -151,8 +152,8 @@ export default function Setings() {
         {
           title: 'Cerrar sesión',
           checked: true,
-          action: () => {
-            dispatch(signOut());
+          action: async () => {
+            AuthService.localLogout();
           },
         },
       ],

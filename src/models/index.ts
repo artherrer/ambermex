@@ -51,7 +51,6 @@ export interface Profile {
   verifiedPhone: boolean
   verifiedIdentity: number
   verifiedEmail: boolean
-  emergencyContacts: EmergencyContact[]
   totalUsers: number
   nearbyUsers: number
   medicalDataEnabled: boolean
@@ -75,6 +74,7 @@ export interface Profile {
   dob: string
   medicalData?: MedicalData
   primaryAddress?: PrimaryAddress
+  emergencyContacts?: EmergencyContact[]
   membershipProducts?: MembershipProduct[]
   password?: string
 }
@@ -141,8 +141,8 @@ export const dataToProfile = (data: any): Profile => {
     completeProfile: data.completeProfile,
     medicalData: dataToMedicalData(data.medicalData),
     primaryAddress: dataToPrimaryAddress(data.primaryAddress),
-    membershipProducts: dataToMembershipProducts(data.membershipProducts),
-    emergencyContacts: dataToEmergencyContacts(data.emergencyContacts),
+    membershipProducts: data.membershipProducts && dataToMembershipProducts(data.membershipProducts),
+    emergencyContacts: data.emergencyContacts && dataToEmergencyContacts(data.emergencyContacts),
     termsAccepted: data.termsAccepted,
     responseType: data.response,
     gender: data.gender,
@@ -163,8 +163,6 @@ export const dataToProfile = (data: any): Profile => {
 };
 
 export const dataToMedicalData = (data: any): MedicalData => {
-  console.warn("DATA", data);
-  
   return {
     bloodType: data?.bloodType ?? '',
     allergies: data?.allergies ?? '',

@@ -9,13 +9,13 @@ import { Profile, dataToProfile } from '../../models';
 import { setProfile } from '../../slicers/profile';
 import { setSignedIn } from '../../slicers/auth';
 import AsyncStorageService, { StorageKeys } from '../../services/asyncstorage';
+import { AlertType, ShowAlert } from '../../utils/alerts';
 
 interface TransferDeviceProps {
   navigation: any;
 }
 export default function TransferDevice({ navigation }: TransferDeviceProps) {
   const { email, password, phone } = useSelector((state: any) => state.profile.profile) as Profile;
-  console.warn(email, password);
 
   const [code, setCode] = useState('');
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function TransferDevice({ navigation }: TransferDeviceProps) {
   const onSubmit = async () => {
     try {
       if (!email || !code || !password) {
-        Alert.alert('Error', 'No se encontró información de usuario');
+        ShowAlert('Error', 'No se encontró información de usuario', AlertType.ERROR);
         return;
       }
 
@@ -40,23 +40,21 @@ export default function TransferDevice({ navigation }: TransferDeviceProps) {
 
       dispatch(setSignedIn());
     } catch (error) {
-      console.warn(error);
-      Alert.alert('Error', 'Ocurrió un error al intentar transferir el servicio');
+      ShowAlert('Error', 'No se pudo transferir el dispositivo', AlertType.ERROR, error);
     }
   };
 
   const sendCode = async () => {
     if (!email || !phone) {
-      Alert.alert('Error', 'No se encontró información de usuario');
+      ShowAlert('Error', 'No se encontró información de usuario', AlertType.ERROR);
       return;
     }
 
     try {
       await axiosPublic.post('/Auth/GetChallengeDeviceValidationCode', { email, phone });
-      Alert.alert('Listo', 'El código ha sido enviado');
+      ShowAlert('Éxito', 'Código enviado correctamente', AlertType.SUCCESS);
     } catch (error) {
-      console.warn(error);
-      Alert.alert('Error', 'Ocurrió un error al intentar enviar el código');
+      ShowAlert('Error', 'No se pudo enviar el código', AlertType.ERROR, error);
     }
   };
 

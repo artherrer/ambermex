@@ -81,7 +81,8 @@ export default function AppNavigator() {
   useEffect(() => {
     async function checkAuth() {
       const token = await AsyncStorageService.getItem(StorageKeys.AUTH_TOKEN);
-      if (token) {
+      const refreshToken = await AsyncStorageService.getItem(StorageKeys.REFRESH_TOKEN);
+      if (token && refreshToken) {
         const { data } = await ProfileService.getProfile();
         dispatch(setProfile(dataToProfile(data.user)));
         dispatch(setSignedIn());

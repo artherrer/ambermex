@@ -8,13 +8,15 @@ import { axiosPrivate, axiosPublic } from './axios.service';
 export default class AuthService {
   static async logout() {
     await axiosPrivate.post('/logout');
-    AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
+    await AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
+    await AsyncStorageService.removeItem(StorageKeys.REFRESH_TOKEN);
     store.dispatch(signOut());
     store.dispatch(setProfile(null));
   }
 
   static async localLogout() {
-    AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
+    await AsyncStorageService.removeItem(StorageKeys.AUTH_TOKEN);
+    await AsyncStorageService.removeItem(StorageKeys.REFRESH_TOKEN);
     store.dispatch(signOut());
     store.dispatch(setProfile(null));
   }

@@ -6,6 +6,7 @@ import { colors } from '../../theme/colors';
 import { axiosPublic } from '../../services/axios.service';
 import { useSelector } from 'react-redux';
 import { Profile } from '../../models';
+import { AlertType, ShowAlert } from '../../utils/alerts';
 
 interface DeviceLinkedProps {
   navigation: any;
@@ -22,7 +23,7 @@ export default function DeviceAlreadyLinked({ navigation }: DeviceLinkedProps) {
     setLoading(true);
     try {
       if (!email || !phone) {
-        Alert.alert('Error', 'No se encontró información de usuario');
+        ShowAlert('Error', 'No se encontró información de usuario', AlertType.ERROR);
         return;
       }
 
@@ -32,9 +33,7 @@ export default function DeviceAlreadyLinked({ navigation }: DeviceLinkedProps) {
       });
       navigation.navigate('TransferDevice');
     } catch (error: any) {
-      console.warn(error);
-
-      Alert.alert('Error', 'Ocurrió un error al intentar transferir el servicio');
+      ShowAlert('Error', 'No se pudo enviar el código', AlertType.ERROR, error);
     } finally {
       setLoading(false);
     }

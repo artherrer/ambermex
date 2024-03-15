@@ -20,7 +20,7 @@
 		69E945892B9BA03C00867EF7 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 69E945822B9BA03C00867EF7 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		69E945922B9BA1D500867EF7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E945842B9BA03C00867EF7 /* NotificationService.swift */; };
 		71B9D4AACC4748E196123428 /* libPods-OneSignalNotificationServiceExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D2BED478A0CF3552A9FEF1 /* libPods-OneSignalNotificationServiceExtension.a */; };
-		74770B798554406415A37CDF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		74770B798554406415A37CDF /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C052BF84CA5AB6765F195489 /* libPods-Production.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 518AA9C7EB951765FE636757 /* libPods-Production.a */; };
 /* End PBXBuildFile section */
@@ -85,7 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74770B798554406415A37CDF /* BuildFile in Frameworks */,
+				74770B798554406415A37CDF /* (null) in Frameworks */,
 				C052BF84CA5AB6765F195489 /* libPods-Production.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,7 +650,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staging.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QXQHLY673S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "ambermex-staging/Info.plist";
@@ -682,7 +682,7 @@
 				CODE_SIGN_ENTITLEMENTS = Staging.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = QXQHLY673S;
 				INFOPLIST_FILE = "ambermex-staging/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -932,10 +932,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -943,10 +940,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -1006,10 +1000,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -1017,10 +1008,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

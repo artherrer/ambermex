@@ -1,14 +1,10 @@
 import { Box, HStack, Icon, Text } from 'native-base';
-import React, { useEffect } from 'react';
-import Header from '../../components/Header';
+import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Header from '../../components/Header';
 import { colors } from '../../theme/colors';
 
-export default function ReportDetail({ navigation, route }: any) {
-  useEffect(() => {
-    console.warn(route.params);
-  }, [route.params]);
-
+export default function ReportDetail() {
   return (
     <>
       <Header />

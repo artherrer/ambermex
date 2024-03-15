@@ -10,7 +10,6 @@ export default function Reports({ navigation, route }: any) {
   const [reports, setReports] = useState<any>([]);
 
   useEffect(() => {
-    console.warn(route.params);
     if (route.params?.type === AlertType.PERSONAL) {
       setReports([{ type: AlertType.PERSONAL, date: new Date() }]);
     }
