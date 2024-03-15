@@ -7,6 +7,9 @@ import { setLoading, setSignedIn } from '../slicers/auth';
 import Auth from '../screens/Auth';
 import Login from '../screens/Login';
 import RecoverPassword from '../screens/RecoverPassword';
+import DeviceAlreadyLinked from '../screens/DeviceAlreadyLinked';
+import TransferDevice from '../screens/TransferDevice';
+import RestorePassword from '../screens/RestorePassword';
 
 // Dashboard Screens
 import AddContact from '../screens/AddContact';
@@ -76,17 +79,15 @@ export default function AppNavigator() {
     async function checkAuth() {
       const token = await AsyncStorageService.getItem(StorageKeys.AUTH_TOKEN);
       if (token) {
-        const { data } = await axiosPrivate.get('/me');
-        const profile = dataToProfile(data);
-
-        dispatch(setProfile(profile));
+        const { data } = await axiosPrivate.get('/Auth/GetUserData');
+        dispatch(setProfile(dataToProfile(data.user)));
         dispatch(setSignedIn());
       } else {
         dispatch(setProfile(null));
         dispatch(setLoading(false));
       }
     }
-    checkAuth();
+    checkAuth().catch(console.error);
   }, []);
 
   if (authReducer.loading) {
@@ -107,6 +108,9 @@ export default function AppNavigator() {
           <Stack.Screen name="Auth" component={Auth} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
+          <Stack.Screen name="DeviceAlreadyLinked" component={DeviceAlreadyLinked} />
+          <Stack.Screen name="TransferDevice" component={TransferDevice} />
+          <Stack.Screen name="RestorePassword" component={RestorePassword} />
         </Stack.Group>
       )}
     </Stack.Navigator>

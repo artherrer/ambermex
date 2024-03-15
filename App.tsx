@@ -14,17 +14,23 @@ import Main from './src/App';
 import { store } from './src/store';
 import Theme from './src/theme';
 import { LogBox } from 'react-native';
+import { NotifierWrapper } from 'react-native-notifier';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
-    <NativeBaseProvider theme={Theme}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <Provider store={store}>
-          <Main />
-        </Provider>
+        <NativeBaseProvider theme={Theme}>
+          <Provider store={store}>
+            <NotifierWrapper>
+              <Main />
+            </NotifierWrapper>
+          </Provider>
+        </NativeBaseProvider>
       </NavigationContainer>
-    </NativeBaseProvider>
+    </GestureHandlerRootView>
   );
 }

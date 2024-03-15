@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    signedIn: true,
-    loading: false,
+    signedIn: false,
+    loading: true,
   },
   reducers: {
     setSignedIn: state => {

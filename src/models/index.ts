@@ -61,6 +61,7 @@ export interface Profile {
   medicalData?: MedicalData
   primaryAddress?: PrimaryAddress
   membershipProducts?: MembershipProduct[]
+  password?: string
 }
 
 
@@ -131,17 +132,18 @@ export const dataToProfile = (data: any): Profile => {
     addresses: data.addresses,
     unit: data.unit,
     dob: data.dob,
+    password: data.password,
   };
 };
 
 export const dataToMedicalData = (data: any): MedicalData => {
   return {
-    bloodType: data.bloodType,
-    allergies: data.allergies,
-    medications: data.medications,
-    ailments: data.ailments,
-    height: data.height,
-    weight: data.weight,
+    bloodType: data?.bloodType ?? '',
+    allergies: data?.allergies ?? '',
+    medications: data?.medications ?? '',
+    ailments: data?.ailments ?? '',
+    height: data?.height ?? 0,
+    weight: data?.weight ?? 0,
   };
 }
 

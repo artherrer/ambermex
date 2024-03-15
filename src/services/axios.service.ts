@@ -4,13 +4,8 @@ import { store } from '../store';
 import { signOut } from '../slicers/auth';
 import { setProfile } from '../slicers/profile';
 
-// const mainURL = 'https://api.soc360.cyberpeace.tech';
-const mainURL = 'https://staging.api.soc360.cyberpeace.tech';
 
-// const mainURL = 'http://192.168.100.85:3333';
-
-export const BASE_URL = `${mainURL}/api/v1`;
-export const DOWNLOAD_URL = `${mainURL}/`;
+export const BASE_URL = 'https://alertamxv2prodcentralus.azurewebsites.net';
 
 const axiosPublic = axios.create({
   baseURL: BASE_URL,

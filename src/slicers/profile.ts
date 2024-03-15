@@ -9,7 +9,11 @@ export const profileSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) => {
-      state.profile = action.payload;
+      if (state.profile) {
+        state.profile = { ...state.profile, ...action.payload };
+      } else {
+        state.profile = action.payload;
+      }
     },
     setAlertType: (state, action) => {
       state.alertType = action.payload;

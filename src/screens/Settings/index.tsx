@@ -11,9 +11,12 @@ import { AlertType, Profile } from '../../models';
 import { signOut } from '../../slicers/auth';
 import { colors } from '../../theme/colors';
 import { browserConfigs } from '../../lib/browserinapp';
+import { DateTime } from 'luxon';
 
 export default function Setings() {
   const profile: Profile = useSelector((state: any) => state.profile.profile);
+
+  console.warn('profile', profile);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -165,13 +168,18 @@ export default function Setings() {
     return (
       <Box px={6} bg={'white'} py={3} mb={5}>
         <HStack space={3} alignItems={'center'}>
-          <EditablePicture image={profile.image} onSelectImage={selectImage} />
+          <EditablePicture image={profile.pictureUrl} onSelectImage={selectImage} />
           <VStack>
             <Text fontWeight={'bold'}>{`${profile.name} ${profile.lastName}`}</Text>
-            <Text>{profile.dob}</Text>
+            <Text>{DateTime.fromISO(profile.dob).toFormat('dd/MM/yyyy')}</Text>
             <Text>{profile.email}</Text>
-            <Text>{profile.phoneNumber}</Text>
-            <Text>{profile.address}</Text>
+            <Text>{profile.phone}</Text>
+            {profile.primaryAddress && (
+              <Text>
+                {profile.primaryAddress.address1} {profile.primaryAddress.address2}, {profile.primaryAddress.entity}.
+                C.P {profile.primaryAddress.postalCode}, {profile.primaryAddress.city}
+              </Text>
+            )}
           </VStack>
         </HStack>
       </Box>
