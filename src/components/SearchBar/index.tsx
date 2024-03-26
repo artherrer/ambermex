@@ -5,17 +5,19 @@ interface Props {
   filterText: string;
   onClear: () => void;
   onSearch: (text: string) => void;
+  disable?: boolean;
 }
 
 export default function SearchBar(props: Readonly<Props>) {
-  const { filterText, onClear, onSearch } = props;
+  const { filterText, onClear, onSearch, disable = true } = props;
 
   return (
     <Input
+      editable={disable}
       bgColor={'white'}
       onChangeText={onSearch}
       value={filterText}
-      placeholder="Search"
+      placeholder="Buscar"
       variant="filled"
       width="100%"
       borderRadius="10"

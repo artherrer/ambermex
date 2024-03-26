@@ -12,6 +12,9 @@ import ActionButton from '../../components/ActionButton/ActionButton';
 import EditablePicture from '../../components/EditablePicture';
 import { TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ChatService from '../../services/chat.service';
+import { ChatMember, dataToCreateGroupChatResponse } from '../../models';
+import { AlertType, ShowAlert } from '../../utils/alerts';
 
 const schema = yup
   .object({
@@ -21,6 +24,7 @@ const schema = yup
   .required();
 
 export default function CreateGroupChat({ navigation }: any) {
+  const [chatThumbnail, setChatThumbnail] = useState<any>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const {
     control,
@@ -34,14 +38,45 @@ export default function CreateGroupChat({ navigation }: any) {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
+  const contactsToChatMembers = (contacts: Contact[]): ChatMember[] => {
+    return contacts.map(contact => {
+      return {
+        name: `${contact.givenName} ${contact.familyName}`,
+        phone: contact.phoneNumbers[0].number,
+        avatar: contact.thumbnailPath,
+      };
+    });
+  };
+
+  const onSubmit = async (data: any) => {
     console.log(data);
-    if(!contacts.length) return;
-    navigation.navigate('Conversation', { data, contacts });
+    if (!contacts.length) return;
+    try {
+      const response = await ChatService.createGroupChat({
+        name: data.name,
+        description: data.description,
+        members: contactsToChatMembers(contacts),
+        thumbnail: chatThumbnail,
+      });
+
+      const chat = dataToCreateGroupChatResponse(response.data);
+
+      console.warn("chat", chat);
+      
+
+      navigation.navigate('Conversation', { groupId: chat.groupId });
+
+      if (chat.message) {
+        ShowAlert('Canal creado', chat.message, AlertType.SUCCESS);
+      }
+    } catch (error) {
+      ShowAlert('Error', 'Ocurrió un error al crear el canal', AlertType.ERROR, error);
+    }
   };
 
   const onSelectImage = (image: any) => {
     console.log(image);
+    setChatThumbnail(image);
   };
 
   const selectContact = (contact: Contact) => {
@@ -70,11 +105,11 @@ export default function CreateGroupChat({ navigation }: any) {
   };
 
   return (
-    <>
+    <Box flex={1}>
       <Header />
       <HStack space={3} alignItems={'center'} px={6} py={6}>
         <EditablePicture image={null} onSelectImage={onSelectImage} />
-        <Box>
+        <Box flex={1}>
           <Text>Nombre del canal</Text>
           <Controller
             control={control}
@@ -116,6 +151,6 @@ export default function CreateGroupChat({ navigation }: any) {
       <ActionButton buttonColor={colors.primary} onPress={handleSubmit(onSubmit)} useNativeDriver={true} active={false}>
         Crear
       </ActionButton>
-    </>
+    </Box>
   );
 }

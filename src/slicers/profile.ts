@@ -39,13 +39,13 @@ export const profileSlice = createSlice({
 
     addEmergencyContact: (state, action) => {
       if (state.profile) {
-        state.profile.emergencyContacts.push(action.payload);
+        state.profile.emergencyContacts?.push(action.payload);
       }
     },
 
     removeEmergencyContact: (state, action) => {
       if (state.profile) {
-        state.profile.emergencyContacts = state.profile.emergencyContacts.filter(
+        state.profile.emergencyContacts = state.profile.emergencyContacts?.filter(
           (contact) => contact.phone !== action.payload.phone,
         );
       }

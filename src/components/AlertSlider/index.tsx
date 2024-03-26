@@ -1,32 +1,18 @@
-import { Box, Button, HStack, Image, Modal, Text } from 'native-base';
+import { Box, Button, HStack, Modal, Text } from 'native-base';
 import { useEffect, useState } from 'react';
 import { colors } from '../../theme/colors';
 import Slider from '../Slider';
 import styles from './styles';
-import ActionButton from '../ActionButton/ActionButton';
-import ALERT_PERSONAL from '../../assets/images/alerts/personal.png';
-import ALERT_MEDICAL from '../../assets/images/alerts/medical.png';
-import ALERT_WOMAN from '../../assets/images/alerts/womans.png';
-import ALERT_SUSPICIOUS from '../../assets/images/alerts/suspicious.png';
-import ALERT_NEIGHBORHOOD from '../../assets/images/alerts/neighborhood.png';
 
-import { setAlertType as setAlertTypeReducer } from '../../slicers/profile';
 import { Vibration } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { AlertType } from '../../models';
+import { useSelector } from 'react-redux';
+import { AlertType, AlertTypeColor } from '../../models';
 
 export default function AlertSlider(props: any) {
+  const profileReducer = useSelector((state: any) => state.profile);
   const [showModal, setShowModal] = useState(false);
   const [counter, setCounter] = useState(5);
   const [timer, setTimer] = useState<any>(null);
-  const dispatch = useDispatch();
-  const alerts = [
-    { id: 1, image: ALERT_PERSONAL, text: 'Alerta Personal', alertType: AlertType.PERSONAL },
-    { id: 2, image: ALERT_MEDICAL, text: 'Alerta Médica', alertType: AlertType.MEDICAL },
-    { id: 3, image: ALERT_WOMAN, text: 'Alerta Mujeres', alertType: AlertType.WOMAN },
-    { id: 4, image: ALERT_SUSPICIOUS, text: 'Alerta Sospecha', alertType: AlertType.SUSPICIOUS },
-    { id: 5, image: ALERT_NEIGHBORHOOD, text: 'Alerta Vecinal', alertType: AlertType.NEIGHBORHOOD },
-  ];
 
   const callToSOS = () => {
     setShowModal(true);
@@ -55,36 +41,13 @@ export default function AlertSlider(props: any) {
     }
   }, [counter]);
 
-  const setAlertType = (alert: any) => {
-    dispatch(setAlertTypeReducer(alert));
-  };
-
   return (
     <Box px={6} mt={3}>
       <HStack>
-        <Box w={20}>
-          <ActionButton
-            buttonColor={'white'}
-            backdrop={true}
-            position="left"
-            size={50}
-            offsetX={0}
-            offsetY={0}
-            verticalOrientation={'down'}
-            degrees={0}
-            renderIcon={() => (
-              <Image source={ALERT_PERSONAL} resizeMode={'contain'} w={70} h={70} alt="chat individual" />
-            )}>
-            {alerts.map((alert, index) => (
-              <ActionButton.Item title={alert.text} onPress={() => setAlertType(alert.alertType)} key={alert.id}>
-                <Image source={alert.image} resizeMode={'contain'} w={70} h={70} alt="chat group" />
-              </ActionButton.Item>
-            ))}
-          </ActionButton>
-        </Box>
-
+        <Box w={59}></Box>
         <Box flex={1}>
           <Slider
+            backgroundColor={AlertTypeColor[profileReducer.alertType as AlertType]}
             onEndReached={callToSOS}
             containerStyle={styles.container}
             sliderElement={<Box style={styles.button} />}>

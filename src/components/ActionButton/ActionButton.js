@@ -140,6 +140,7 @@ const ActionButton = props => {
   };
 
   const _renderButtonIcon = () => {
+    console.warn("_renderButtonIcon");
     const { icon, renderIcon, btnOutRangeTxt, buttonTextStyle, buttonText } = props;
     if (renderIcon) return renderIcon(active);
     if (icon) {

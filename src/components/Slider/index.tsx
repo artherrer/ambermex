@@ -63,7 +63,7 @@ export default class Slider extends Component {
         onLayout={event => {
           this.totalWidth = event.nativeEvent.layout.width;
         }}
-        style={[this.props.containerStyle, { alignItems: 'flex-start' }]}
+        style={[this.props.containerStyle, { alignItems: 'flex-start', backgroundColor: this.props.backgroundColor}]}
       >
         <Animated.View
           onLayout={event => {
@@ -94,6 +94,7 @@ Slider.propTypes = {
   sliderElement: PropTypes.element,
   onEndReached: PropTypes.func,
   disableSliding: PropTypes.bool,
+  backgroundColor: PropTypes.any,
 };
 
 Slider.defaultProps = {
@@ -101,5 +102,6 @@ Slider.defaultProps = {
   containerStyle: {},
   sliderElement: <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />,
   onEndReached: () => {},
-  disableSliding: false
+  disableSliding: false,
+  backgroundColor: 'black',
 };

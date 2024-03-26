@@ -9,6 +9,8 @@ export enum AlertType {
 
 export const ShowAlert = (title: string, message: string, type: AlertType = AlertType.SUCCESS, error?: any) => {
 
+  const fullDescription = error?.response?.data?.message ?? message
+
   if (error) {
     if (error.response?.data) {
       console.error(error.response.data)
@@ -18,7 +20,7 @@ export const ShowAlert = (title: string, message: string, type: AlertType = Aler
   } 
   Notifier.showNotification({
     title,
-    description: message,
+    description: fullDescription,
     duration: 4000,
     showAnimationDuration: 800,
     showEasing: Easing.bounce,

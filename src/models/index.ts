@@ -7,6 +7,22 @@ export enum AlertType {
   NEIGHBORHOOD = 'neighborhood',
 }
 
+export const AlertTypeColor = {
+  [AlertType.PERSONAL]: 'rgb(200, 60, 50)',
+  [AlertType.MEDICAL]: 'rgb(30, 72, 142)',
+  [AlertType.WOMAN]: 'rgb(100, 84, 145)',
+  [AlertType.SUSPICIOUS]: 'rgb(241, 175, 41)',
+  [AlertType.NEIGHBORHOOD]: 'rgb(129, 154, 123)',
+}
+
+export const AlertTypeImage = {
+  [AlertType.PERSONAL]: 'assets/images/alerts/personal.png',
+  [AlertType.MEDICAL]: 'assets/images/alerts/medical.png',
+  [AlertType.WOMAN]: 'assets/images/alerts/womans.png',
+  [AlertType.SUSPICIOUS]: 'assets/images/alerts/suspicious.png',
+  [AlertType.NEIGHBORHOOD]: 'assets/images/alerts/neighborhood.png',
+}
+
 
 export interface Login {
   username: string;
@@ -118,7 +134,33 @@ export interface MembershipProduct {
   type: number
 }
 
+export interface CreateIndividualChat {
+  phone: string
+}
 
+export interface CreateIndividualChatResponse {
+  groupId: string
+}
+
+export interface ChatMember {
+  name: string
+  phone: string
+  avatar?: string
+  id?: string
+}
+export interface CreateGroupChat {
+  name: string
+  description: string
+  type?: number
+  members: ChatMember[]
+  thumbnail?: any
+}
+
+
+export interface CreateGroupChatResponse {
+  message?: string
+  groupId: string
+}
 
 export const dataToProfile = (data: any): Profile => {
   return {
@@ -216,4 +258,24 @@ export const dataToEmergencyContact = (data: any): EmergencyContact => {
 
 export const dataToEmergencyContacts = (data: any): EmergencyContact[] => {
   return data.map((emergencyContact: any) => dataToEmergencyContact(emergencyContact));
+}
+
+export const dataToCreateIndividualChatResponse = (data: any): CreateIndividualChatResponse => {
+  return {
+    groupId: data.groupId,
+  };
+}
+
+export const dataToCreateGroupChatResponse = (data: any): CreateGroupChatResponse => {
+  return {
+    message: data.message,
+    groupId: data.groupId,
+  };
+}
+
+export const dataToChatMember = (data: any): ChatMember => {
+  return {
+    name: data.name,
+    phone: data.phone,
+  };
 }
