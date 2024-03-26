@@ -62,10 +62,7 @@ export default function AddContact({ navigation, route }: any) {
       if (hasCountryCode) {
         const countryCode = countryCodes.find(code => phoneNumber.includes(code));
         const phone = phoneNumber.replace(countryCode, '');
-        console.warn('countryCode', countryCode);
         if (countryCode) {
-          console.warn('countryCode', countryCode);
-
           setCountryCode(countryCode);
           setValue('country_code', countryCode);
         }
