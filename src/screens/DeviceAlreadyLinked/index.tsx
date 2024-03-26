@@ -1,11 +1,11 @@
 import { Box, Button, Icon, Image, Text, VStack } from 'native-base';
 import React, { useState } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { colors } from '../../theme/colors';
-import { axiosPublic } from '../../services/axios.service';
 import { useSelector } from 'react-redux';
 import { Profile } from '../../models';
+import { axiosPublic } from '../../services/axios.service';
+import { colors } from '../../theme/colors';
 import { AlertType, ShowAlert } from '../../utils/alerts';
 
 interface DeviceLinkedProps {
@@ -13,7 +13,10 @@ interface DeviceLinkedProps {
 }
 export default function DeviceAlreadyLinked({ navigation }: DeviceLinkedProps) {
   const [loading, setLoading] = useState(false);
-  const { email, phone } = useSelector((state: any) => state.profile.profile) as Profile;
+  const profileReducer = useSelector((state: any) => state.profile.profile) as Profile;
+
+  console.warn(profileReducer);
+  
 
   const goBack = () => {
     navigation.goBack();
@@ -22,17 +25,19 @@ export default function DeviceAlreadyLinked({ navigation }: DeviceLinkedProps) {
   const onSubmit = async () => {
     setLoading(true);
     try {
-      if (!email || !phone) {
+      if (!profileReducer.email || !profileReducer.phone) {
         ShowAlert('Error', 'No se encontró información de usuario', AlertType.ERROR);
         return;
       }
 
       await axiosPublic.post('/Auth/GetChallengeDeviceValidationCode', {
-        email: email,
-        phoneNumber: phone,
+        email: profileReducer.email,
+        phoneNumber: profileReducer.phone,
       });
       navigation.navigate('TransferDevice');
     } catch (error: any) {
+      console.warn(error);
+      
       ShowAlert('Error', 'No se pudo enviar el código', AlertType.ERROR, error);
     } finally {
       setLoading(false);

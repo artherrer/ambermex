@@ -137,7 +137,7 @@ export default function AddContact({ navigation, route }: any) {
                 value={phone}
                 style={{
                   borderBottomWidth: 1,
-                  borderBottomColor: '#000',
+                  borderBottomColor: '#ddd',
                   fontSize: 12,
                   paddingBottom: 7,
                   paddingTop: 8,

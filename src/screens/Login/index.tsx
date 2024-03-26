@@ -64,6 +64,14 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
       const responseToken = await AuthService.login(loginData);
 
       if (responseToken.data.challenge) {
+        dispatch(
+          setProfile(
+            dataToProfile({
+              ...responseToken.data.user_data,
+              password: data.password,
+            }),
+          ),
+        );
         navigation.navigate('DeviceAlreadyLinked');
         return;
       }

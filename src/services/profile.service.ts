@@ -1,4 +1,4 @@
-import { Login, MedicalData, RecoverPassword } from '../models';
+import { MedicalData } from '../models';
 import { axiosPrivate } from './axios.service';
 
 export default class ProfileService {

@@ -43,7 +43,6 @@ export default function RecoverPasswordScreen({ navigation }: RecoverPasswordPro
       const payload: RecoverPassword = {
         phone: data.country_code + data.phone,
       };
-      console.warn(payload);
       
       const response = await AuthService.recoverPassword(payload);
       navigation.navigate('RestorePassword', { userId: response.data.userId, phone: payload.phone });
@@ -78,7 +77,7 @@ export default function RecoverPasswordScreen({ navigation }: RecoverPasswordPro
                 value={phone}
                 style={{
                   borderBottomWidth: 1,
-                  borderBottomColor: '#000',
+                  borderBottomColor: '#ddd',
                   fontSize: 12,
                   paddingBottom: 7,
                   paddingTop: 8,
